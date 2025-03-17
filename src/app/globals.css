@@ -1,77 +1,90 @@
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  display: flex;
+  margin: 0px;
 }
-
 .container {
   display: flex;
-  height: 100vh;
 }
-
 .sidebar {
   width: 250px;
-  background-color: #333;
-  color: white;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  height: 750px;
   padding: 20px;
-  height: 100vh;
-}
-
-.sidebar img {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-details {
-  background: #444;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  padding: 5px;
-}
-
-summary {
-  padding: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  list-style: none;
   display: flex;
+  flex-direction: column;
+  border: solid black 1px;
   justify-content: space-between;
   align-items: center;
-  color: white;
 }
-
-summary::after {
-  content: "▶";
-  font-size: 14px;
+#im1 {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
 }
-
-details[open] summary::after 
+.navbar, .dashboard 
 {
-  content: "▼";
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  text-align: center;
 }
-
-.submenu 
+.navbar a, .dashboard a 
 {
-  padding-left: 20px;
-  padding-bottom: 5px;
-}
-
-.submenu a 
-{
-  display: block;
-  padding: 5px 0;
+  font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
-  color: #ddd;
-  font-size: 14px;
+  font-size: medium;
+  color: rgb(0, 0, 0);
+  padding: 8px;
+  background-color: rgb(255, 244, 226);
+  border-radius: 5px;
+  text-align: center;
+  display: block;
+}
+.dashboard {
+ 
+  text-align: left; 
+  margin-bottom: auto;
 }
 
-.submenu a:hover 
+.dashboard h3 {
+  margin: 20px 0 5px 0; 
+  padding-left: 10px; 
+  font-size: 18px;
+  font-weight: bold;
+  color:orange;
+}
+
+.dashboard {
+  margin-bottom: auto;
+}
+.addcourse 
 {
+  background-color: rgb(240, 144, 0);
+  font-size: medium;
   color: white;
+  padding: 10px;
+  border: none;
+  width: 130px;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.addcourse:hover
+{
+  background-color: rgb(255, 195, 84);
+  font-weight: bold ;
+  color:black;
+  box-shadow: 2px 5px 5px rgb(255, 214, 181);
 }
 .content {
-  flex-grow: 1;
-  padding: 20px;
-  background-color: #f4f4f4;
   
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 760px;
+  font-size: 35px ;
+  color: orange;
 }
