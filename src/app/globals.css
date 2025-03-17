@@ -1,14 +1,19 @@
 body {
   margin: 0px;
+  max-height: 100vh;
+  overflow: hidden;
 }
+
 .container {
   display: flex;
+  height: 100vh;
 }
+
 .sidebar {
-  width: 250px;
+  width: 300px;
   background-color: rgb(255, 255, 255);
   color: black;
-  height: 750px;
+  max-height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -16,21 +21,37 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
 #im1 {
   width: 100%;
   height: auto;
   margin-bottom: 10px;
 }
-.navbar, .dashboard 
-{
+
+.navbar,
+.dashboard {
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
   text-align: center;
 }
-.navbar a, .dashboard a 
-{
+
+.navbar {
+  text-align: left;
+  /* margin-bottom: auto; */
+}
+
+.navbar h3 {
+  margin: 20px 0 5px 0;
+  padding-left: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: orange;
+}
+
+.navbar a,
+.dashboard a {
   font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
   font-size: medium;
@@ -41,25 +62,25 @@ body {
   text-align: center;
   display: block;
 }
+
 .dashboard {
- 
-  text-align: left; 
+  text-align: left;
   margin-bottom: auto;
 }
 
 .dashboard h3 {
-  margin: 20px 0 5px 0; 
-  padding-left: 10px; 
+  margin: 20px 0 5px 0;
+  padding-left: 10px;
   font-size: 18px;
   font-weight: bold;
-  color:orange;
+  color: orange;
 }
 
 .dashboard {
   margin-bottom: auto;
 }
-.addcourse 
-{
+
+.addcourse {
   background-color: rgb(240, 144, 0);
   font-size: medium;
   color: white;
@@ -70,21 +91,77 @@ body {
   text-align: center;
   margin-bottom: 10px;
 }
-.addcourse:hover
-{
+
+.addcourse:hover {
   background-color: rgb(255, 195, 84);
-  font-weight: bold ;
-  color:black;
+  font-weight: bold;
+  color: black;
   box-shadow: 2px 5px 5px rgb(255, 214, 181);
 }
+
 .content {
-  
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  justify-content: center;
-  align-items: center;
   text-align: center;
-  height: 760px;
-  font-size: 35px ;
+  max-height: 100vh;
+  font-size: 35px;
   color: orange;
+  overflow: scroll;
+}
+
+.course-head {
+  background-color: white;
+  position: sticky;
+  top: 230px;
+  z-index: 1;
+}
+
+.course-head h3 {
+  color: black;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.header-content {
+  background-color: rgb(255, 244, 226);
+  align-items: center;
+  position: sticky;
+  top: 0;
+}
+
+.header-content h1 {
+  margin-bottom: 10px;
+  height: fit-content;
+}
+
+.search-bar {
+  box-sizing: border-box;
+  max-width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  width: 500px;
+  height: fit-content;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background: white url("/public/search.svg") left no-repeat;
+}
+
+.courses {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 20px;
+  max-height: 100%;
+  text-align: center;
+}
+
+.courses div {
+  background-color: rgb(255, 244, 226);
+  max-height: 100%;
+  max-width: 100%;
+  height: 300px;
+  width: 400px;
 }

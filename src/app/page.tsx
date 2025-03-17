@@ -8,6 +8,7 @@
                 <div className="sidebar">
                     <img src="/images/chitti.png" id="im1" />
                     <div className="navbar">
+                        <h3>Resources</h3>
                         <a href="#">University Core</a>
                         <a href="#">Faculty Core</a>
                         <a href="#">Program Core</a>
@@ -22,7 +23,24 @@
                     <button className="addcourse">Add Courses</button>
                 </div>
                 <div className="content">
-                    <h1>Welcome to Chitti Admin Panel</h1>
+                    <div className="header-content">
+                        <h1>Welcome to Chitti Admin Panel</h1>
+                        <input type="text" className="search-bar"/>
+                    </div>
+                    <div className="course-head">
+                        <h3>Courses</h3>
+                    </div>
+                    <div className="courses">
+                        <div><h3>Compiler Design</h3></div>
+                        <div><h3>Computer Networks</h3></div>
+                        <div><h3>WAD</h3></div>
+                        <div><h3>Artifial Intelligence</h3></div>
+                        <div><h3>Engineering Economics</h3></div>
+                        <div><h3>Quantum</h3></div>
+                        <div><h3>Agile</h3></div>
+                        <div><h3>Cloud</h3></div>
+                        <div><h3>Image Processing</h3></div>
+                    </div>
                 </div>
             </div>
         );
