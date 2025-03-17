@@ -5,10 +5,8 @@
     export default function Home() {
         return (
             <div className="container">
-                {/* Sidebar */}
                 <div className="sidebar">
                     <img src="/images/chitti.png" id="im1" />
-                    
                     <div className="navbar">
                         <a href="#">University Core</a>
                         <a href="#">Faculty Core</a>
