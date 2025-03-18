@@ -1,12 +1,23 @@
+*{
+  font-family: 'Poppins';
+}
 body {
   margin: 0px;
   max-height: 100vh;
   overflow: hidden;
+  width: 100vw;
 }
 
 .container {
   display: flex;
   height: 100vh;
+}
+
+.logo{
+  color: #F26E0C;
+  font-weight: 800;
+  font-size: 22px;
+  margin-right: auto;
 }
 
 .sidebar {
@@ -18,14 +29,7 @@ body {
   display: flex;
   flex-direction: column;
   border: solid black 1px;
-  justify-content: space-between;
   align-items: center;
-}
-
-#im1 {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
 }
 
 .navbar,
@@ -43,23 +47,25 @@ body {
 }
 .navbar h3 {
   margin: 20px 0 5px 0;
-  padding-left: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  color: orange;
+  font-size: 16px;
+  font-weight: 600;
+  color: #00000040;
+  text-transform: uppercase;
 }
 
 .navbar a,
 .dashboard a {
-  font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
   font-size: medium;
   color: rgb(0, 0, 0);
-  padding: 8px;
-  background-color: rgb(255, 244, 226);
+  padding: 8px 0px;
   border-radius: 5px;
-  text-align: center;
   display: block;
+}
+
+.navbar a::before,
+.dashboard a::before {
+  content: "+ ";
 }
 
 .dashboard {
@@ -67,13 +73,6 @@ body {
   margin-bottom: auto;
 }
 
-.dashboard h3 {
-  margin: 20px 0 5px 0;
-  padding-left: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  color: orange;
-}
 
 .dashboard {
   margin-bottom: auto;
@@ -104,8 +103,6 @@ body {
   flex-grow: 1;
   text-align: center;
   max-height: 100vh;
-  font-size: 35px;
-  color: orange;
   overflow: scroll;
 }
 
@@ -113,40 +110,44 @@ body {
   background-color: white;
   display: flex;
   justify-content: space-between;
-  top: 230px;
   z-index: 1;
-  position:sticky;  
+  margin: 20px 20px;
+  align-items: center;
 }
 .course-head h3 {
   color: black;
   text-align: left;
-  margin-left: 20px;
-  display: inline;
+  font-weight: 600;
 }
 .course-head button
 {
   align-items: end;
-  height: 40px;
-  width: 140px;
-  margin-top: 40px;
-  margin-right:150px;
-  background-color:rgb(255, 202, 104);
+  padding: 12px 24px;
+  background-color:#F26E0C;
   border:none;
   border-radius:10px;
   font-size: medium;
+  position: fixed;
+  bottom: 24px;
+  left: 80px;
+  font-weight: 500;
+  cursor: pointer;
+  color: white;
 }
 .reshead button:hover, .course-head button:hover
 {
-  background-color: rgb(194, 109, 4);
-  color:white;
-  box-shadow: 2px 5px 5px grey;
-  font-weight: 700;
+  background-color:#d45e05;
+  box-shadow: 0px 0px 10px 0px #00000040;
 }
 .header-content {
-  background-color: rgb(255, 244, 226);
+  background: url('/istockphoto-1949882446-612x612 (1).jpg');
+  background-size: cover;
+  min-height: 300px;
   align-items: center;
-  position: sticky;
-  top: 0;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  color: white;
 }
 
 .header-content h1 {
@@ -157,9 +158,9 @@ body {
 .search-bar {
   box-sizing: border-box;
   max-width: 100%;
-  font-size: 20px;
   padding: 10px;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   height: fit-content;
   margin-bottom: 50px;
   border-radius: 5px;
@@ -169,18 +170,19 @@ body {
 }
 
 .courses {
-  padding: 20px;
+  max-width: calc(100% - 24px);
+  padding: 20px 12px;
   display: grid;
-  grid-template-columns: auto auto auto; 
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   text-align: center;
+  row-gap: 12px;
+  column-gap: 12px;
 }
 
 .courses div {
-  background-color: rgb(255, 244, 226);
+  background-color: #9FE7F5;
   max-height: 100%;
-  max-width: 100%;
-  height: 300px;
-  width: 400px;
+  aspect-ratio: 1;
 }
 
 .course-sidebar {
@@ -220,11 +222,10 @@ body {
   flex-direction: column;
   flex-grow: 1;
   height: 100vh;
-  color: orange;
+  color: #F26E0C;
 }
 
 .units-dashboard p {
   margin: 0;
   padding: 20px;
-  font-size: 100px;
 }

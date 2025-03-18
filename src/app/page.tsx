@@ -8,24 +8,32 @@ export default function Home() {
   return (
     <div className="container">
       <div className="sidebar">
-        <img src="/images/chitti.png" id="im1" alt="Chitti logo" />
-        <div className="navbar">
-            <h3>Resources</h3>
+        <p className="logo">CHITTI.</p>
+        <nav className="navbar">
+          <h3>Resources</h3>
           <a href="#">University Core</a>
           <a href="#">Faculty Core</a>
           <a href="#">Program Core</a>
           <a href="#">Program Electives</a>
           <a href="#">Open Electives</a>
           <a href="#">Management Basket</a>
-        </div>
-        <div className="dashboard">
+
           <h3>Statistics</h3>
-        </div>
+        </nav>
         {/* <button className="addcourse" onClick={() => addResource()}>Add Courses</button> */}
       </div>
       <div className="content">
         <div className="header-content">
-          <h1>Welcome to Chitti Admin Panel</h1>
+          <h1>
+            Welcome to Chitti,{" "}
+            <span
+              style={{
+                color: "#000000",
+              }}
+            >
+              Admin
+            </span>
+          </h1>
           <input type="text" className="search-bar" placeholder="Search....." />
         </div>
         <div className="course-head">
