@@ -41,7 +41,6 @@ body {
   text-align: left;
   /* margin-bottom: auto; */
 }
-
 .navbar h3 {
   margin: 20px 0 5px 0;
   padding-left: 10px;
@@ -112,17 +111,37 @@ body {
 
 .course-head {
   background-color: white;
-  position: sticky;
+  display: flex;
+  justify-content: space-between;
   top: 230px;
   z-index: 1;
+  position:sticky;  
 }
-
 .course-head h3 {
   color: black;
   text-align: left;
   margin-left: 20px;
+  display: inline;
 }
-
+.course-head button
+{
+  align-items: end;
+  height: 40px;
+  width: 140px;
+  margin-top: 40px;
+  margin-right:150px;
+  background-color:rgb(255, 202, 104);
+  border:none;
+  border-radius:10px;
+  font-size: medium;
+}
+.reshead button:hover, .course-head button:hover
+{
+  background-color: rgb(194, 109, 4);
+  color:white;
+  box-shadow: 2px 5px 5px grey;
+  font-weight: 700;
+}
 .header-content {
   background-color: rgb(255, 244, 226);
   align-items: center;
@@ -152,9 +171,7 @@ body {
 .courses {
   padding: 20px;
   display: grid;
-  grid-template-columns: auto auto auto;
-  gap: 20px;
-  max-height: 100%;
+  grid-template-columns: auto auto auto; 
   text-align: center;
 }
 
