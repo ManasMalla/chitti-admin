@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export default function Home() {
 
-    function addResource() {
+    // function addResource() {
         
-    }
+    // }
 
     return (
         <div className="container">
@@ -24,8 +24,8 @@ export default function Home() {
                 <div className="dashboard">
                     <h3>Dashboard</h3>
                     <a href="#">Statistics</a>
-                </div>a
-                <button className="addcourse" onClick={() => addResource()}>Add Courses</button>
+                </div>
+                {/* <button className="addcourse" onClick={() => addResource()}>Add Courses</button> */}
             </div>
             <div className="content">
                 <div className="header-content">
