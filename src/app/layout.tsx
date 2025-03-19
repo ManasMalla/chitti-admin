@@ -25,7 +25,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <div className="container">
+          <div className="sidebar">
+            <p className="logo">CHITTI.</p>
+            <nav className="navbar">
+              <h3>Resources</h3>
+              <a href="#">University Core</a>
+              <a href="#">Faculty Core</a>
+              <a href="#">Program Core</a>
+              <a href="#">Program Electives</a>
+              <a href="#">Open Electives</a>
+              <a href="#">Management Basket</a>
+
+              <h3>Statistics</h3>
+            </nav>
+            {/* <button className="addcourse" onClick={() => addResource()}>Add Courses</button> */}
+          </div>
+          {children}
+        </div>
       </body>
     </html>
   );

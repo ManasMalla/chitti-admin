@@ -150,6 +150,17 @@ body {
   color: white;
 }
 
+.course-section .header-content {
+  background: url('/istockphoto-1949882446-612x612 (1).jpg');
+  background-size: cover;
+  min-height: 150px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
 .header-content h1 {
   margin-bottom: 10px;
   height: fit-content;
@@ -198,34 +209,8 @@ body {
   align-items: center;
 }
 
-.unit {
-  position: absolute;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  top: 10%;
-}
 
-.add-unit {
-  font-size: 20px;
-  height: fit-content;
-  width: fit-content;
-  top: 0;
-  border-radius: 10px;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.units-dashboard {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: 100vh;
-  color: #F26E0C;
-}
-
-.units-dashboard p {
-  margin: 0;
-  padding: 20px;
+a.course-block {
+  color: #1a1a1a;
+text-decoration: none;
 }
