@@ -13,7 +13,9 @@ export default function CourseDetails(props: any) {
         <div className="flex justify-between py-4 items-center">
           <h3 className="text-xl font-bold w-max">Units</h3>
           <a
-            href={`/${courseCategory}/course/${props.courseId}/add-unit`}
+            href={`/${courseCategory}/course/${props.courseId}/add-unit#${
+              props.units.length + 1
+            }`}
             className="bg-black text-white py-2 px-4 rounded-full uppercase text-sm"
           >
             Add unit
@@ -31,7 +33,9 @@ export default function CourseDetails(props: any) {
                 href={`/${courseCategory}/course/${props.courseId}/${unit.name
                   .split(" ")
                   .join("-")
-                  .toLowerCase()}/add-topic`}
+                  .toLowerCase()}/add-topic#${index + 1}.${
+                  unit.topics.length + 1
+                }`}
                 className="border-black border-2 py-2 px-4 rounded-full text-sm uppercase"
               >
                 Add topic

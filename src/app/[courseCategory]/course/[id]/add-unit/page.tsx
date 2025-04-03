@@ -1,17 +1,21 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AddUnitForm.module.css";
 import { usePathname } from "next/navigation";
 
 export default function Page() {
   const courseId = usePathname().split("/")[3];
-  const [unitNo, setUnitNo] = useState("");
+  const [unitNo, setUnitNo] = useState<any>("");
   const [unitName, setUnitName] = useState<any>(undefined);
   const [description, setDescription] = useState<any>(undefined);
   const [difficulty, setDifficulty] = useState<any>(undefined);
   const [message, setMessage] = useState<any>("");
   const [status, setStatus] = useState<any>(null);
+  useEffect(() => {
+    console.log(window.location.hash);
+    setUnitNo(parseInt(window.location.hash.replace("#", "")));
+  }, []);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -69,6 +73,7 @@ export default function Page() {
         <input
           type="number"
           min={1}
+          readOnly
           max={5}
           id="unitNo"
           value={unitNo}

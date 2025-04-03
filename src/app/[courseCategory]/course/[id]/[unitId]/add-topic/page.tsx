@@ -2,11 +2,14 @@
 "use client";
 import { usePathname } from "next/navigation";
 import styles from "./page.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const params = usePathname();
-
+  const [topicNamePrefix, setTopicNamePrefix] = useState("");
+  useEffect(() => {
+    setTopicNamePrefix(window.location.hash.replace("#", ""));
+  });
   const [topicName, setTopicName] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [message, setMessage] = useState("");
@@ -30,7 +33,7 @@ export default function Page() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: topicName,
+            name: `${topicNamePrefix} ${topicName}`,
             difficulty: difficulty,
           }),
         }
