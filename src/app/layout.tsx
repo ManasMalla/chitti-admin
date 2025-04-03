@@ -27,15 +27,15 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <div className="container max-w-[100vw]">
           <div className="sidebar">
-            <p className="logo">CHITTI.</p>
+           <a className="logo" href="/">CHITTI.</a>
             <nav className="navbar">
               <h3>Resources</h3>
-              <a href="#">University Core</a>
-              <a href="#">Faculty Core</a>
-              <a href="#">Program Core</a>
-              <a href="#">Program Electives</a>
-              <a href="#">Open Electives</a>
-              <a href="#">Management Basket</a>
+              <a href="/university-core">University Core</a>
+              <a href="/faculty-core">Faculty Core</a>
+              <a href="/program-core">Program Core</a>
+              <a href="/program-elective">Program Elective</a>
+              <a href="/open-elective">Open Elective</a>
+              <a href="/management-basket">Management Basket</a>
 
               <h3>Statistics</h3>
             </nav>

@@ -1,21 +1,21 @@
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 
 import "tailwindcss/index.css";
 
 export default function CourseDetails(props: any) {
+  const courseCategory = usePathname().split("/")[1];
   return (
     <>
       <div className="text-start p-8">
         <h2 className="text-3xl font-medium py-4">Course Description</h2>
         <p className="max-w-[48ch]">
-          This course provides an introduction to the theory and practice of
-          compiler design. Topics include lexical analysis, syntax analysis,
-          semantic analysis, optimization, and code generation.
+          {props.description}
         </p>
         <div className="flex justify-between py-4 items-center">
           <h3 className="text-xl font-bold w-max">Units</h3>
           <a
-            href={`/course/${props.courseId}/add-unit`}
+            href={`/${courseCategory}/course/${props.courseId}/add-unit`}
             className="bg-black text-white py-2 px-4 rounded-full uppercase text-sm"
           >
             Add unit
@@ -30,7 +30,7 @@ export default function CourseDetails(props: any) {
             <div className="flex items-center  mb-4 gap-4">
               <h5 className="text-lg font-bold h-max">Topics</h5>
               <a
-                href={`/course/${props.courseId}/${unit.name
+                href={`/${courseCategory}/course/${props.courseId}/${unit.name
                   .split(" ")
                   .join("-")
                   .toLowerCase()}/add-topic`}
@@ -43,7 +43,7 @@ export default function CourseDetails(props: any) {
               {unit.topics.map((topic: any, index: number) => (
                 <li className="list-disc ml-8 mb-2" key={index}>
                   <a
-                    href={`/course/${props.courseId}/${unit.name
+                    href={`/${courseCategory}/course/${props.courseId}/${unit.name
                       .split(" ")
                       .join("-")
                       .toLowerCase()}/${topic

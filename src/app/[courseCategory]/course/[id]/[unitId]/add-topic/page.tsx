@@ -14,16 +14,14 @@ export default function Page() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    // Replace with your actual course ID and unit ID
     const courseId = params.replace("/add-topic", "").split("/")[
       params.split("/").length - 3
     ];
     const unitId = params.replace("/add-topic", "").split("/").pop();
 
     try {
-      //TODO: Replace with actual API route
       const response = await fetch(
-        `/api/admin/${courseId}/${unitId}/addRoadmap`,
+        `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${courseId}/${unitId}/addRoadmap`,
         {
           //IMPORTANT:  Use /api route
           method: "POST",
@@ -31,8 +29,6 @@ export default function Page() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            courseId: courseId,
-            unitName: unitId,
             name: topicName,
             difficulty: difficulty,
           }),

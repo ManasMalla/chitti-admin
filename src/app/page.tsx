@@ -1,11 +1,12 @@
+"use client";
 // import Image from "next/image";
 // import styles from "./page.module.css";
 // import Link from "next/link";
 
-export default function Home() {
-  // function addResource() {
+import { useEffect, useState } from "react";
 
-  // }
+export default function Home() {
+ 
   return (
     <div className="content">
       <div className="header-content">
@@ -21,32 +22,11 @@ export default function Home() {
         </h1>
         <input type="text" className="search-bar" placeholder="Search....." />
       </div>
-      <div className="course-head">
+      {/* <div className="course-head">
         <h3>Courses</h3>
         <button type="button">Add Courses +</button>
-      </div>
-      <div className="courses">
-        {[
-          {
-            name: "Compiler Design",
-            id: "CSEN3031",
-          },
-          {
-            name: "Artificial Intelligence",
-            id: "CSEN2071",
-          },
-          {
-            name: "Quantum computing",
-            id: "SENC101",
-          },
-        ].map((r) => (
-          <a className="course-block" href={"/course/" + r.id} key={r.id}>
-            <div>
-              <h3>{r.name}</h3>
-            </div>
-          </a>
-        ))}
-      </div>
+      </div> */}
+      
     </div>
   );
 }
