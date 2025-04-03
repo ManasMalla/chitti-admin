@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+"use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,19 +14,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "CHITTI.",
-  description: "Admin Panel",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
   return (
     <html lang="en">
       <head>
+        <title>CHITTI Admin Panel.</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="CHITTI Admin Panel" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
@@ -39,12 +39,42 @@ export default function RootLayout({
             </Link>
             <nav className="navbar">
               <h3>Resources</h3>
-              <Link href="/university-core">University Core</Link>
-              <Link href="/faculty-core">Faculty Core</Link>
-              <Link href="/program-core">Program Core</Link>
-              <Link href="/program-elective">Program Elective</Link>
-              <Link href="/open-elective">Open Elective</Link>
-              <Link href="/management-basket">Management Basket</Link>
+              <Link
+                href="/university-core"
+                className={pathname === "/university-core" ? "active" : ""}
+              >
+                University Core
+              </Link>
+              <Link
+                href="/faculty-core"
+                className={pathname === "/faculty-core" ? "active" : ""}
+              >
+                Faculty Core
+              </Link>
+              <Link
+                href="/program-core"
+                className={pathname === "/program-core" ? "active" : ""}
+              >
+                Program Core
+              </Link>
+              <Link
+                href="/program-elective"
+                className={pathname === "/program-elective" ? "active" : ""}
+              >
+                Program Elective
+              </Link>
+              <Link
+                href="/open-elective"
+                className={pathname === "/open-elective" ? "active" : ""}
+              >
+                Open Elective
+              </Link>
+              <Link
+                href="/management-basket"
+                className={pathname === "/management-basket" ? "active" : ""}
+              >
+                Management Basket
+              </Link>
 
               {/* <h3>Statistics</h3> */}
             </nav>
