@@ -1,64 +1,71 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from 'react';
-import styles from './AddUnitForm.module.css'; 
-import { usePathname } from 'next/navigation';
+import React, { useState } from "react";
+import styles from "./AddUnitForm.module.css";
+import { usePathname } from "next/navigation";
 
 export default function Page() {
-  const courseId = (usePathname()).split("/")[3];
-  const [unitNo, setUnitNo] = useState('');
+  const courseId = usePathname().split("/")[3];
+  const [unitNo, setUnitNo] = useState("");
   const [unitName, setUnitName] = useState<any>(undefined);
   const [description, setDescription] = useState<any>(undefined);
   const [difficulty, setDifficulty] = useState<any>(undefined);
-  const [message, setMessage] = useState<any>(''); 
-  const [status, setStatus] = useState<any>(null); 
-  const handleSubmit = async (e:any) => {
+  const [message, setMessage] = useState<any>("");
+  const [status, setStatus] = useState<any>(null);
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const cid = courseId;
 
     try {
-      const response = await fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/${cid}/addUnit`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          unitNo: parseInt(unitNo),  // Convert to integer
-          unitName,
-          description,
-          difficulty,
-        }),
-      });
+      const response = await fetch(
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/${cid}/addUnit`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            unitNo: parseInt(unitNo), // Convert to integer
+            unitName,
+            description,
+            difficulty,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage('Unit created successfully!');
-        setStatus('success');
+        setMessage("Unit created successfully!");
+        setStatus("success");
 
-        setUnitNo('');
-        setUnitName('');
-        setDescription('');
-        setDifficulty('');
+        setUnitNo("");
+        setUnitName("");
+        setDescription("");
+        setDifficulty("");
       } else {
-        setMessage(data.message || 'An error occurred.');
-        setStatus('error');
+        setMessage(data.message || "An error occurred.");
+        setStatus("error");
       }
     } catch (error) {
-      console.error('Error adding unit:', error);
-      setMessage('Failed to add unit. Please try again.');
-      setStatus('error');
+      console.error("Error adding unit:", error);
+      setMessage("Failed to add unit. Please try again.");
+      setStatus("error");
     }
   };
 
   return (
     <div className={styles.container}>
       <h1>Add New Unit</h1>
-      {status === 'success' && <div className={styles.successMessage}>{message}</div>}
-      {status === 'error' && <div className={styles.errorMessage}>{message}</div>}
+      {status === "success" && (
+        <div className={styles.successMessage}>{message}</div>
+      )}
+      {status === "error" && (
+        <div className={styles.errorMessage}>{message}</div>
+      )}
       <form onSubmit={handleSubmit} className={styles.form}>
-
-      <label htmlFor="unitNo">Unit Number:</label>
+        <label htmlFor="unitNo">Unit Number:</label>
         <input
           type="number"
           min={1}
@@ -103,4 +110,4 @@ export default function Page() {
       </form>
     </div>
   );
-};
+}

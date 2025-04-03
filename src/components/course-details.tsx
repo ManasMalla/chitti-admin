@@ -1,5 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { usePathname } from "next/navigation";
-import Script from "next/script";
 
 import "tailwindcss/index.css";
 
@@ -9,9 +9,7 @@ export default function CourseDetails(props: any) {
     <>
       <div className="text-start p-8">
         <h2 className="text-3xl font-medium py-4">Course Description</h2>
-        <p className="max-w-[48ch]">
-          {props.description}
-        </p>
+        <p className="max-w-[48ch]">{props.description}</p>
         <div className="flex justify-between py-4 items-center">
           <h3 className="text-xl font-bold w-max">Units</h3>
           <a
@@ -43,10 +41,9 @@ export default function CourseDetails(props: any) {
               {unit.topics.map((topic: any, index: number) => (
                 <li className="list-disc ml-8 mb-2" key={index}>
                   <a
-                    href={`/${courseCategory}/course/${props.courseId}/${unit.name
-                      .split(" ")
-                      .join("-")
-                      .toLowerCase()}/${topic
+                    href={`/${courseCategory}/course/${
+                      props.courseId
+                    }/${unit.name.split(" ").join("-").toLowerCase()}/${topic
                       .split(" ")
                       .join("-")
                       .toLowerCase()}`}

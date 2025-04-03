@@ -3,10 +3,7 @@
 // import styles from "./page.module.css";
 // import Link from "next/link";
 
-import { useEffect, useState } from "react";
-
 export default function Home() {
- 
   return (
     <div className="content">
       <div className="header-content">
@@ -26,7 +23,6 @@ export default function Home() {
         <h3>Courses</h3>
         <button type="button">Add Courses +</button>
       </div> */}
-      
     </div>
   );
 }

@@ -1,61 +1,69 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from 'react';
-import styles from './AddCourseForm.module.css';
-import { usePathname } from 'next/navigation';
+import React, { useState } from "react";
+import styles from "./AddCourseForm.module.css";
+import { usePathname } from "next/navigation";
 
 function AddCourseForm() {
-  const [courseId, setCourseId] = useState('');
-  const courseCategory = usePathname().split('/')[1]; // Extracting courseCategory from the URL
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
-  const [message, setMessage] = useState('');
+  const [courseId, setCourseId] = useState("");
+  const courseCategory = usePathname().split("/")[1]; // Extracting courseCategory from the URL
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [message, setMessage] = useState("");
   const [status, setStatus] = useState<any>(null); // null, 'success', 'error'
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/addCourse`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          courseId,
-          courseCategory,
-          title,
-          description,
-          image,
-        }),
-      });
+      const response = await fetch(
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/addCourse`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            courseId,
+            courseCategory,
+            title,
+            description,
+            image,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage('Course added successfully!');
-        setStatus('success');
+        setMessage("Course added successfully!");
+        setStatus("success");
         // Reset the form
-        setCourseId('');
-        setTitle('');
-        setDescription('');
-        setImage('');
+        setCourseId("");
+        setTitle("");
+        setDescription("");
+        setImage("");
       } else {
-        setMessage(data.message || 'An error occurred.');
-        setStatus('error');
+        setMessage(data.message || "An error occurred.");
+        setStatus("error");
       }
     } catch (error) {
-      console.error('Error adding course:', error);
-      setMessage('Failed to add course. Please try again.');
-      setStatus('error');
+      console.error("Error adding course:", error);
+      setMessage("Failed to add course. Please try again.");
+      setStatus("error");
     }
   };
 
   return (
     <div className={styles.container}>
       <h1>Add New Course</h1>
-      {status === 'success' && <div className={styles.successMessage}>{message}</div>}
-      {status === 'error' && <div className={styles.errorMessage}>{message}</div>}
+      {status === "success" && (
+        <div className={styles.successMessage}>{message}</div>
+      )}
+      {status === "error" && (
+        <div className={styles.errorMessage}>{message}</div>
+      )}
       <form onSubmit={handleSubmit} className={styles.form}>
         <label htmlFor="courseId">Course ID:</label>
         <input
