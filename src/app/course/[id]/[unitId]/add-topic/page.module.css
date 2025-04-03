@@ -1,0 +1,62 @@
+.container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  
+  .container h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .container  .form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .container .form input[type="text"],
+  .container  .form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for padding to not affect width */
+  }
+  
+  .container button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+  }
+  
+  .container button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .container .message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .container .error {
+    color: red;
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+  }
+  
+  .container .success {
+    color: green;
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+  }

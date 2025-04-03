@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div className="container">
+        <div className="container max-w-[100vw]">
           <div className="sidebar">
             <p className="logo">CHITTI.</p>
             <nav className="navbar">
