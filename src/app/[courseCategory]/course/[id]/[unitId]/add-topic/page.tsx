@@ -16,7 +16,7 @@ export default function Page() {
   const [messageType, setMessageType] = useState(""); // 'success' or 'error'
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
     const courseId = params.replace("/add-topic", "").split("/")[
       params.split("/").length - 3
