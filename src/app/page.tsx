@@ -7,17 +7,8 @@ export default function Home() {
   return (
     <div className="content">
       <div className="header-content">
-        <h1>
-          Welcome to Chitti,{" "}
-          <span
-            style={{
-              color: "#000000",
-            }}
-          >
-            Admin
-          </span>
-        </h1>
-        <input type="text" className="search-bar" placeholder="Search....." />
+        <h1>Welcome to CHITTI. Admin Panel!</h1>
+        {/* <input type="text" className="search-bar" placeholder="Search....." /> */}
       </div>
       {/* <div className="course-head">
         <h3>Courses</h3>

@@ -27,19 +27,6 @@ export default function Home() {
   // }
   return (
     <div className="content">
-      <div className="header-content">
-        <h1>
-          Welcome to Chitti,{" "}
-          <span
-            style={{
-              color: "#000000",
-            }}
-          >
-            Admin
-          </span>
-        </h1>
-        <input type="text" className="search-bar" placeholder="Search....." />
-      </div>
       <div className="course-head">
         <div>
           <h4>
@@ -47,7 +34,9 @@ export default function Home() {
           </h4>
           <h3>Courses</h3>
         </div>
-        <a href={"/" + courseCategory + "/add-course"}>Add Courses +</a>
+        <a href={"/" + courseCategory + "/add-course"} style={{
+            textDecoration: "none",
+          }}>Add Courses +</a>
       </div>
       <div className="courses">
         {courses.map((r: any) => (

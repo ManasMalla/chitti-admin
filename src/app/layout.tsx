@@ -40,7 +40,7 @@ export default function RootLayout({
               <Link href="/open-elective">Open Elective</Link>
               <Link href="/management-basket">Management Basket</Link>
 
-              <h3>Statistics</h3>
+              {/* <h3>Statistics</h3> */}
             </nav>
             {/* <button className="addcourse" onClick={() => addResource()}>Add Courses</button> */}
           </div>
