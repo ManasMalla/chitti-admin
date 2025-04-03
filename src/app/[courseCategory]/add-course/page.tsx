@@ -16,7 +16,7 @@ function AddCourseForm() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/addCourse`, {
+      const response = await fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/addCourse`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

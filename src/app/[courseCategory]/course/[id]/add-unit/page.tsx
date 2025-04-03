@@ -17,7 +17,7 @@ export default function Page() {
     const cid = courseId;
 
     try {
-      const response = await fetch(`http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${cid}/addUnit`, {
+      const response = await fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/${cid}/addUnit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

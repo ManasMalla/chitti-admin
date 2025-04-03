@@ -9,7 +9,7 @@ export default function CoursePage() {
   const [course, setCourse] = useState<any>(undefined);
   useEffect(()=>{
     if (typeof window === "undefined") return;
-    fetch(`http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${courseId}`)
+    fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/${courseId}`)
       .then((response) => response.json())
       .then((data) => {
         const apiResponse = data;
