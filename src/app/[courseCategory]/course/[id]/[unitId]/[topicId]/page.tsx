@@ -5,7 +5,6 @@ import app from "@/lib/firebase";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import path from "path";
 import { useEffect, useState } from "react";
 import "tailwindcss/index.css";
 
