@@ -22,7 +22,12 @@ export default function CoursePage() {
           units: apiResponse.units.map((unit: any) => ({
             name: unit.name,
             description: unit.description,
-            topics: unit.roadmap.map((topic: any) => topic.name), // Or modify this if needed
+            topics: unit.roadmap.map((topic: any) => {
+              return {
+                name: topic.name,
+                id: topic.roadId,
+              };
+            }), // Or modify this if needed
           })),
         };
         setCourse(formattedData);

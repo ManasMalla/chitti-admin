@@ -47,12 +47,11 @@ export default function CourseDetails(props: any) {
                   <a
                     href={`/${courseCategory}/course/${
                       props.courseId
-                    }/${unit.name.split(" ").join("-").toLowerCase()}/${topic
-                      .split(" ")
-                      .join("-")
-                      .toLowerCase()}`}
+                    }/${unit.name.split(" ").join("-").toLowerCase()}/${
+                      topic.id
+                    }`}
                   >
-                    {topic} {">"}
+                    {topic.name} {">"}
                   </a>
                 </li>
               ))}
