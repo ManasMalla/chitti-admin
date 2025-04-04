@@ -66,9 +66,11 @@ export default function Page() {
               </Link>
               <div className="flex gap-4">
                 <a className="font-medium">{video.name}</a>
-                <span className="material-symbols-outlined cursor-pointer">
-                  edit
-                </span>
+                <a href={pathname + "/edit-video/" + video.videoId}>
+                  <span className="material-symbols-outlined cursor-pointer">
+                    edit
+                  </span>
+                </a>
                 <button
                   onClick={() => {
                     if (
@@ -124,9 +126,11 @@ export default function Page() {
           <li className="list-decimal ml-8 mb-2" key={question.iqId}>
             <div className="flex gap-4">
               <a>{question.question}</a>
-              <span className="material-symbols-outlined cursor-pointer">
-                edit
-              </span>
+              <a href={pathname + "/edit-important-question/" + question.iqId}>
+                <span className="material-symbols-outlined cursor-pointer">
+                  edit
+                </span>
+              </a>
               <button
                 onClick={() => {
                   if (
@@ -172,9 +176,11 @@ export default function Page() {
           <li className="list-disc ml-8 mb-2" key={note.notesId}>
             <div className="flex gap-4">
               <a href={note.url}>{note.name}</a>
-              <span className="material-symbols-outlined cursor-pointer">
-                edit
-              </span>
+              <a href={pathname + "/edit-notes/" + note.notesId}>
+                <span className="material-symbols-outlined cursor-pointer">
+                  edit
+                </span>
+              </a>
               <button
                 onClick={() => {
                   if (confirm("Are you sure you want to delete the reource?")) {
@@ -223,9 +229,11 @@ export default function Page() {
           <li className="list-disc ml-8 mb-2" key={cheatsheet.cheatId}>
             <div className="flex gap-4">
               <a href={cheatsheet.url}>{cheatsheet.name}</a>
-              <span className="material-symbols-outlined cursor-pointer">
-                edit
-              </span>
+              <a href={pathname + "/edit-cheatsheet/" + cheatsheet.cheatId}>
+                <span className="material-symbols-outlined cursor-pointer">
+                  edit
+                </span>
+              </a>
               <button
                 onClick={() => {
                   if (confirm("Are you sure you want to delete the reource?")) {
