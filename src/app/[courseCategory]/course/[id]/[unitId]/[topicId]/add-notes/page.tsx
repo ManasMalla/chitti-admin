@@ -12,7 +12,6 @@ import {
 } from "firebase/storage";
 import app from "@/lib/firebase";
 import { usePathname } from "next/navigation";
-import { PDFDocument, JpegEmbedder, PDFImage, PDFName } from "pdf-lib";
 
 const AddNotesPage = () => {
   const [name, setName] = useState("");
