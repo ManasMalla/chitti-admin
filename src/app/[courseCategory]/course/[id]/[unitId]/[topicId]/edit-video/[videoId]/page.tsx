@@ -35,7 +35,7 @@ const EditVideoPage = () => {
     const fetchVideoDetails = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/get-video/${videoId}`
+          `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/get-video/${videoId}`
         );
         const data = await response.json();
 
@@ -167,7 +167,7 @@ const EditVideoPage = () => {
       setMessage("Files uploaded. Adding video details...");
 
       const response = await fetch(
-        `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/edit-video/${videoId}`,
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/edit-video/${videoId}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

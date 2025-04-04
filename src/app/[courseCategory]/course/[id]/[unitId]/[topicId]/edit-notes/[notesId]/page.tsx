@@ -30,7 +30,7 @@ const EditNotesPage = () => {
     const fetchNotesDetails = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/get-notes/${notesId}` // Corrected API endpoint
+          `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/get-notes/${notesId}` // Corrected API endpoint
         );
         const data = await response.json();
 
@@ -145,7 +145,7 @@ const EditNotesPage = () => {
       setMessage("File uploaded.  Updating note details...");
 
       const response = await fetch(
-        `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/edit-notes/${notesId}`, // Corrected API endpoint
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/edit-notes/${notesId}`, // Corrected API endpoint
         {
           method: "PATCH", // Changed to PATCH for updating
           headers: {

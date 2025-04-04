@@ -30,7 +30,7 @@ const AddCheatsheetPage = () => {
     const fetchCheatsheetDetails = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/get-cheatsheet/${cheatId}`
+          `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/get-cheatsheet/${cheatId}`
         );
         const data = await response.json();
 
@@ -125,7 +125,7 @@ const AddCheatsheetPage = () => {
       );
 
       const response = await fetch(
-        `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/edit-cheatsheet/${cheatId}`,
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/edit-cheatsheet/${cheatId}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

@@ -47,7 +47,7 @@ const EditIqPage = () => {
     const fetchIqDetails = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/get-iq/${iqId}`
+          `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/get-iq/${iqId}`
         );
         const data = await response.json();
 
@@ -181,7 +181,7 @@ const EditIqPage = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/edit-iq/${iqId}`, // Changed to edit-iq
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/edit-iq/${iqId}`, // Changed to edit-iq
         {
           method: "PATCH", // Changed to PATCH
           headers: {
