@@ -23,7 +23,7 @@ const AddVideoPage = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const pathname = usePathname();
 
-  const route = pathname.split("/course/")[1].replace("/add-video", "");
+  const route = pathname.split("/course/")[1].replace("/add-videos", "");
 
   const handleFileChange = (e: any, type: "video" | "thumbnail") => {
     const selectedFile = e.target.files[0];
