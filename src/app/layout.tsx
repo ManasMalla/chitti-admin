@@ -41,37 +41,43 @@ export default function RootLayout({
               <h3>Resources</h3>
               <Link
                 href="/university-core"
-                className={pathname === "/university-core" ? "active" : ""}
+                className={
+                  pathname.includes("/university-core") ? "active" : ""
+                }
               >
                 University Core
               </Link>
               <Link
                 href="/faculty-core"
-                className={pathname === "/faculty-core" ? "active" : ""}
+                className={pathname.includes("/faculty-core") ? "active" : ""}
               >
                 Faculty Core
               </Link>
               <Link
                 href="/program-core"
-                className={pathname === "/program-core" ? "active" : ""}
+                className={pathname.includes("/program-core") ? "active" : ""}
               >
                 Program Core
               </Link>
               <Link
                 href="/program-elective"
-                className={pathname === "/program-elective" ? "active" : ""}
+                className={
+                  pathname.includes("/program-elective") ? "active" : ""
+                }
               >
                 Program Elective
               </Link>
               <Link
                 href="/open-elective"
-                className={pathname === "/open-elective" ? "active" : ""}
+                className={pathname.includes("/open-elective") ? "active" : ""}
               >
                 Open Elective
               </Link>
               <Link
                 href="/management-basket"
-                className={pathname === "/management-basket" ? "active" : ""}
+                className={
+                  pathname.includes("/management-basket") ? "active" : ""
+                }
               >
                 Management Basket
               </Link>
