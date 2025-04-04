@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+/* eslint-disable  @typescript-eslint/no-unused-vars */
 // pages/admin/addIq.js
 "use client";
 import { useState, useCallback } from "react";
@@ -5,7 +7,6 @@ import styles from "./AddIq.module.css";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Firebase imports
-import { initializeApp } from "firebase/app"; // Import initializeApp
 import app from "@/lib/firebase";
 
 interface FormState {
