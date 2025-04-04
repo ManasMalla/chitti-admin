@@ -1,26 +1,56 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
 // pages/admin/addCheatsheet.js
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./AddCheatsheet.module.css"; // Import the CSS Module
 import {
   getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 import app from "@/lib/firebase";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 const AddCheatsheetPage = () => {
   const [name, setName] = useState("");
   const [file, setFile] = useState<any>(null);
+  const [uploadedFileURL, setUploadedFileURL] = useState("");
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const pathname = usePathname();
 
-  const route = pathname.split("/course/")[1].replace("/add-cheatsheet", "");
+  const route = pathname.split("/course/")[1].split("/edit-cheatsheet")[0];
+  const cheatId = useParams().cheatId;
+
+  useEffect(() => {
+    // fetch the cheatsheet details from the API
+    const fetchCheatsheetDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/get-cheatsheet/${cheatId}`
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          setName(data.name);
+          setUploadedFileURL(data.url);
+          setMessage("Cheatsheet details fetched successfully.");
+          setSuccess(true);
+        } else {
+          setMessage(data.message || "Error fetching cheatsheet details.");
+          setSuccess(false);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setMessage("An unexpected error occurred.");
+        setSuccess(false);
+      }
+    };
+    fetchCheatsheetDetails();
+  }, []);
 
   const handleFileChange = (e: any) => {
     const selectedFile = e.target.files[0];
@@ -45,6 +75,8 @@ const AddCheatsheetPage = () => {
 
     const storage = getStorage(app);
     const storageRef = ref(storage, `cheatsheets/${file.name}`);
+    const oldStorageRef = ref(storage, uploadedFileURL);
+
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     return new Promise((resolve, reject) => {
@@ -64,6 +96,7 @@ const AddCheatsheetPage = () => {
         async () => {
           try {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            await deleteObject(oldStorageRef);
             resolve(downloadURL);
           } catch (error: any) {
             console.error("Download URL Error:", error);
@@ -78,18 +111,23 @@ const AddCheatsheetPage = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setMessage("Uploading file...");
+    setMessage(!file ? "Loading.." : "Uploading file...");
 
     try {
-      const fileURL = await uploadFileToFirebase();
+      const fileURL = !file ? uploadedFileURL : await uploadFileToFirebase();
+
       if (!fileURL) return;
 
-      setMessage("File uploaded. Adding cheatsheet details...");
+      setMessage(
+        !file
+          ? "Updating cheatsheet details..."
+          : "File uploaded. Adding cheatsheet details..."
+      );
 
       const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/addCheatsheet`,
+        `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${route}/edit-cheatsheet/${cheatId}`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ url: fileURL, name }),
         }
@@ -98,16 +136,16 @@ const AddCheatsheetPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Cheatsheet Added Successfully!");
+        setMessage("Cheatsheet Updated Successfully!");
         setSuccess(true);
         setName("");
         setFile(null);
         setUploadProgress(0);
         // Redirect to the previous page
-        alert("Cheatsheet Added Successfully!");
-        window.location.href = pathname.replace("/add-cheatsheet", "");
+        alert("Cheatsheet Updated Successfully!");
+        window.location.href = pathname.split("/edit-cheatsheet")[0];
       } else {
-        setMessage(data.message || "Error adding cheatsheet.");
+        setMessage(data.message || "Error updating cheatsheet.");
         setSuccess(false);
       }
     } catch (error) {
@@ -119,7 +157,7 @@ const AddCheatsheetPage = () => {
 
   return (
     <div className={styles["add-cheatsheet-container"]}>
-      <h1>Add Cheatsheet</h1>
+      <h1>Edit Cheatsheet</h1>
       {message && (
         <div
           className={`${styles["message"]} ${
@@ -141,13 +179,15 @@ const AddCheatsheetPage = () => {
           />
         </div>
         <div className={styles["form-group"]}>
-          <label htmlFor="file">Upload File (PDF or Image):</label>
+          <label htmlFor="file">Re-Upload File (PDF or Image):</label>
+          <p>
+            Current resource: <a href={uploadedFileURL}>{uploadedFileURL}</a>
+          </p>
           <input
             type="file"
             id="file"
             accept="application/pdf, image/*"
             onChange={handleFileChange}
-            required
           />
         </div>
         {uploadProgress > 0 && (
@@ -160,7 +200,7 @@ const AddCheatsheetPage = () => {
           className={styles["submit-button"]}
           disabled={uploadProgress > 0 && uploadProgress < 100}
         >
-          Add Cheatsheet
+          Edit Cheatsheet
         </button>
       </form>
     </div>
