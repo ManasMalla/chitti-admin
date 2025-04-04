@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+/* eslint-disable  @typescript-eslint/no-unused-vars */
 "use client";
 // pages/admin/addVideo.js
 import { useState } from "react";

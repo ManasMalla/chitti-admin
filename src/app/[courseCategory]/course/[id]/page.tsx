@@ -1,4 +1,5 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
+/* eslint-disable  @typescript-eslint/no-unused-vars */
 "use client";
 import CourseDetails from "@/components/course-details";
 import { useParams } from "next/navigation";

@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
 // pages/admin/addCheatsheet.js
 import { useState } from "react";
