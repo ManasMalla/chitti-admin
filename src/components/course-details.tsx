@@ -1,13 +1,21 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import "tailwindcss/index.css";
 
 export default function CourseDetails(props: any) {
   const courseCategory = usePathname().split("/")[1];
+  const backUrl = `/${courseCategory}`;
   return (
     <>
       <div className="text-start p-8">
+        <Link
+          href={backUrl}
+          className="inline-block mb-6 py-2 px-4 bg-gray-200 text-gray-700 rounded text-sm font-medium"
+        >
+          ← Back to Category
+        </Link>
         <h2 className="text-3xl font-medium py-4">Course Description</h2>
         <p className="max-w-[48ch]">{props.description}</p>
         <div className="flex justify-between py-4 items-center">

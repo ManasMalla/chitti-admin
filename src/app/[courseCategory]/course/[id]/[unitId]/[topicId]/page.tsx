@@ -13,6 +13,10 @@ export default function Page() {
   const topicId = useParams().topicId;
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
+  const courseCategory = pathname.split("/")[1];
+  const courseId = pathname.split("course/")[1].split("/")[0];
+  const backUrl = `/${courseCategory}/course/${courseId}`;
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +38,12 @@ export default function Page() {
         {topicId?.toString().split("-").join(" ")}
       </p>
       <h2 className="text-4xl mb-2">Resources</h2>
+      <Link
+        href={backUrl}
+        className="inline-block mb-6 py-2 px-4 bg-gray-200 text-gray-700 rounded text-sm font-medium"
+      >
+        ← Back to Course
+      </Link>
 
       <h4 className="text-lg font-medium mt-8">Videos</h4>
       <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
