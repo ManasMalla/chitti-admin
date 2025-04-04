@@ -89,3 +89,7 @@
     border-radius: 4px;
     text-align: center;
 }
+
+.thumbnail-preview {
+    max-height: 300px;
+}
