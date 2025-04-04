@@ -122,6 +122,8 @@ const AddNotesPage = () => {
         setName("");
         setFile(null);
         setUploadProgress(0);
+        alert("Notes Added Successfully!");
+        window.location.href = pathname.replace("/add-notes", "");
       } else {
         setMessage(data.message || "Error adding note.");
         setSuccess(false);

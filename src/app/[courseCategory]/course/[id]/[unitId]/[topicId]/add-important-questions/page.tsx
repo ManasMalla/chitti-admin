@@ -41,6 +41,9 @@ const AddIqPage = () => {
         setTag("");
         setQuestion("");
         setAnswer("");
+        // Redirect to the previous page
+        alert("Important Question Added Successfully!");
+        window.location.href = pathname.replace("/add-important-questions", "");
       } else {
         setMessage(data.message || "Error adding important question.");
         setSuccess(false);

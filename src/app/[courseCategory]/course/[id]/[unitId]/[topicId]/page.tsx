@@ -77,9 +77,13 @@ export default function Page() {
                       setIsLoading(true);
                       const storage = getStorage(app);
                       const storageRef = ref(storage, video.url);
-                      deleteObject(storageRef).then(() => {
+                      const thumbnailRef = ref(storage, video.thumbnail);
+                      Promise.all([
+                        deleteObject(storageRef),
+                        deleteObject(thumbnailRef),
+                      ]).then(() => {
                         fetch(
-                          `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${
+                          `https://webapi-zu6v4azneq-el.a.run.app/admin/${
                             pathname.split("course/")[1]
                           }/delete-video/${video.videoId}`,
                           {
@@ -129,7 +133,7 @@ export default function Page() {
                     confirm("Are you sure you want to delete the resource?")
                   ) {
                     fetch(
-                      `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${
+                      `https://webapi-zu6v4azneq-el.a.run.app/admin/${
                         pathname.split("course/")[1]
                       }/delete-iq/${question.iqId}`,
                       {
@@ -179,7 +183,7 @@ export default function Page() {
                     const storageRef = ref(storage, note.url);
                     deleteObject(storageRef).then(() => {
                       fetch(
-                        `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${
+                        `https://webapi-zu6v4azneq-el.a.run.app/admin/${
                           pathname.split("course/")[1]
                         }/delete-notes/${note.notesId}`,
                         {
@@ -230,7 +234,7 @@ export default function Page() {
                     const storageRef = ref(storage, cheatsheet.url);
                     deleteObject(storageRef).then(() => {
                       fetch(
-                        `http://127.0.0.1:5001/chitti-ananta/asia-south1/webApi/admin/${
+                        `https://webapi-zu6v4azneq-el.a.run.app/admin/${
                           pathname.split("course/")[1]
                         }/delete-cheatsheet/${cheatsheet.cheatId}`,
                         {

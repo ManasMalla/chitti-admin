@@ -129,6 +129,8 @@ const AddVideoPage = () => {
         setThumbnailFile(null);
         setThumbnailPreview(null);
         setUploadProgress(0);
+        alert("Video Added Successfully!");
+        window.location.href = pathname.replace("/add-videos", "");
       } else {
         setMessage(data.message || "Error adding video.");
         setSuccess(false);

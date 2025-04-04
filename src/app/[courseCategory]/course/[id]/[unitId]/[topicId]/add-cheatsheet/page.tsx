@@ -103,6 +103,9 @@ const AddCheatsheetPage = () => {
         setName("");
         setFile(null);
         setUploadProgress(0);
+        // Redirect to the previous page
+        alert("Cheatsheet Added Successfully!");
+        window.location.href = pathname.replace("/add-cheatsheet", "");
       } else {
         setMessage(data.message || "Error adding cheatsheet.");
         setSuccess(false);
