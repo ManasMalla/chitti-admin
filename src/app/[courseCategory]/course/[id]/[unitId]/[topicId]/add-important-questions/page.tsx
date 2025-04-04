@@ -218,7 +218,10 @@ const AddIqPage = () => {
                     <a href={url} target="_blank" rel="noopener noreferrer">
                       {url}
                     </a>
-                    <button type="button" onClick={() => handleCopy(url)}>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(`[${url}](markdown)`)}
+                    >
                       Copy URL
                     </button>
                   </li>
