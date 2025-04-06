@@ -23,6 +23,7 @@ export default function CoursePage() {
           units: apiResponse.units.map((unit: any) => ({
             name: unit.name,
             description: unit.description,
+            importantQuestions: unit.importantQuestions,
             topics: unit.roadmap.map((topic: any) => {
               return {
                 name: topic.name,

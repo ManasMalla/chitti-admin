@@ -2,7 +2,7 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 "use client";
 // pages/admin/addIq.js
-import { useState } from "react";
+import { use, useState } from "react";
 import styles from "./AddIq.module.css"; // Import the CSS Module (create this)
 import {
   getStorage,
@@ -11,15 +11,17 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import app from "@/lib/firebase";
-import { useParams, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const AddIqPage = () => {
   const [file, setFile] = useState<any>(null); // State to hold the uploaded file
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const { cid, uid } = useParams();
-  const router = useRouter();
+  const pathname = usePathname();
+  const route = pathname
+    .split("/course/")[1]
+    .replace("/add-important-questions", "");
 
   const handleFileChange = async (e: any) => {
     const selectedFile = e.target.files[0];
@@ -29,9 +31,9 @@ const AddIqPage = () => {
     }
 
     // Validate File Type (e.g., image, PDF, etc.) - Adjust as needed
-    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"]; // Example: JPEG, PNG, PDF
+    const allowedTypes = ["application/pdf"]; // Example: JPEG, PNG, PDF
     if (!allowedTypes.includes(selectedFile.type)) {
-      setMessage("Please select a valid file type (JPEG, PNG, PDF)."); // Adjust message
+      setMessage("Please select a valid file type (PDF)."); // Adjust message
       setSuccess(false);
       setFile(null); // Clear the file state
       return;
@@ -50,7 +52,7 @@ const AddIqPage = () => {
     }
 
     const storage = getStorage(app); // Pass the Firebase app instance
-    const storageRef = ref(storage, `iqs/${cid}/${uid}/${file.name}`); // More specific path
+    const storageRef = ref(storage, `iqs/${file.name}`); // More specific path
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     return new Promise((resolve, reject) => {
@@ -97,7 +99,7 @@ const AddIqPage = () => {
       setMessage("File uploaded. Adding IQ details...");
 
       const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/${cid}/${uid}/addIq`,
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/addIq`,
         {
           method: "POST",
           headers: {
@@ -115,7 +117,10 @@ const AddIqPage = () => {
         setFile(null);
         setUploadProgress(0);
         alert("Important Question Added Successfully!");
-        router.push(`/admin/course/${cid}/unit/${uid}`); // Adjust the redirect
+        window.location.href = pathname.replace(
+          `${route.split("/")[1]}/add-important-questions`,
+          ""
+        );
       } else {
         setMessage(data.message || "Error adding important question.");
         setSuccess(false);
@@ -145,14 +150,14 @@ const AddIqPage = () => {
           <input
             type="file"
             id="file"
-            accept="image/*, application/pdf" // Adjust accepted types
+            accept="application/pdf" // Adjust accepted types
             onChange={handleFileChange}
             required
           />
         </div>
         {uploadProgress > 0 && (
           <div className={styles["upload-progress"]}>
-            Upload Progress: {uploadProgress.toFixed(2)}%
+            Upload Progress:  {uploadProgress.toFixed(2)}%
           </div>
         )}
         <button
