@@ -130,7 +130,7 @@ export default function Page() {
           <a href={pathname + "/add-videos"}>Add video</a>
         </li>
       </ul>
-      <h4 className="text-lg font-medium mt-8">Important Questions</h4>
+      {/* <h4 className="text-lg font-medium mt-8">Important Questions</h4>
       <ul className="mt-4">
         {(courseData["importantQuestions"] as any).map((question: any) => (
           <li className="list-decimal ml-8 mb-2" key={question.iqId}>
@@ -179,7 +179,7 @@ export default function Page() {
         <li className="text-orange-500 font-medium uppercase ml-4 my-4 border-2 border-orange-500 rounded-full w-max px-4 py-2 text-sm">
           <a href={pathname + "/add-important-questions"}>Add questions</a>
         </li>
-      </ul>
+      </ul> */}
       <h4 className="text-lg font-medium mt-8">Notes</h4>
       <ul className="mt-4">
         {(courseData["notes"] as any).map((note: any) => (

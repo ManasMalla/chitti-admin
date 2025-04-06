@@ -64,6 +64,16 @@ export default function CourseDetails(props: any) {
                 </li>
               ))}
             </ul>
+            <div className="flex items-center  mb-4 gap-4">
+              <h5 className="text-lg font-bold h-max">Important Questions</h5>
+              <a
+                href="#"
+                className="border-orange-500 text-orange-500 border-2 py-2 px-4 rounded-full text-sm uppercase"
+              >
+                Add question
+              </a>
+            </div>
+            <hr className="h-1 mx-auto my-10 bg-orange-200 border-0 rounded-sm" />
           </div>
         ))}
       </div>
