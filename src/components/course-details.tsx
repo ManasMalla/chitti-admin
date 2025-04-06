@@ -56,7 +56,7 @@ export default function CourseDetails(props: any) {
             </div>
             <ul>
               {unit.topics.map((topic: any, index: number) => (
-                <li className="list-disc ml-8 mb-2" key={index}>
+                <li className="list-disc ml-8 mb-4" key={index}>
                   <a
                     href={`/${courseCategory}/course/${
                       props.courseId
@@ -64,8 +64,83 @@ export default function CourseDetails(props: any) {
                       topic.id
                     }`}
                   >
-                    {topic.name} {">"}
+                    {topic.name}{" "}
+                    <span className="opacity-50">
+                      (
+                      {topic.difficulty === "beginner"
+                        ? 1
+                        : topic.difficulty === "intermediate"
+                        ? 2
+                        : topic.difficulty == "advanced"
+                        ? 3
+                        : 0}
+                      )
+                    </span>{" "}
+                    {">"}
                   </a>
+                  <button
+                    onClick={() => {
+                      const newDifficulty = prompt(
+                        "Enter new difficulty (N/A-0, beginner-1, intermediate-2, advanced-3)"
+                      );
+
+                      if (
+                        newDifficulty !== "0" &&
+                        newDifficulty !== "1" &&
+                        newDifficulty !== "2" &&
+                        newDifficulty !== "3"
+                      ) {
+                        alert("Please enter a valid difficulty level");
+                        return;
+                      }
+                      const newDifficultyText =
+                        parseInt(newDifficulty) == 0
+                          ? "no-difficulty"
+                          : parseInt(newDifficulty) == 1
+                          ? "beginner"
+                          : parseInt(newDifficulty) == 2
+                          ? "intermediate"
+                          : "advanced";
+                      if (newDifficulty) {
+                        console.log(
+                          "new difficulty",
+                          newDifficulty,
+                          props.courseId,
+                          unit.id,
+                          topic.id
+                        );
+
+                        setIsLoading(true);
+                        fetch(
+                          `https://webapi-zu6v4azneq-el.a.run.app/admin/${props.courseId}/${unit.id}/edit-roadmap/${topic.id}`,
+                          {
+                            method: "PATCH",
+                            body: JSON.stringify({
+                              difficulty: newDifficultyText,
+                            }),
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                          }
+                        )
+                          .then((res) => res.json())
+                          .then((data) => {
+                            console.log("update data", data);
+                            if (data.difficulty) {
+                              alert("Updated Successfully");
+                              setIsLoading(false);
+                              window.location.reload();
+                            }
+                          })
+                          .catch((error) => {
+                            console.log("update error", error);
+                          });
+                      }
+                    }}
+                    className="ml-4 border-2 border-black text-[10px] p-2 rounded-xl uppercase font-medium"
+                  >
+                    Update difficulty
+                  </button>
                 </li>
               ))}
             </ul>

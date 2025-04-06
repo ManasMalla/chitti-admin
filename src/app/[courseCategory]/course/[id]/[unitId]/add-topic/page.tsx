@@ -16,7 +16,7 @@ export default function Page() {
   const [messageType, setMessageType] = useState(""); // 'success' or 'error'
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const courseId = params.replace("/add-topic", "").split("/")[
       params.split("/").length - 3
@@ -88,6 +88,7 @@ export default function Page() {
           required
         >
           <option value="">Select Difficulty</option>
+          <option value="no-difficulty">N/A</option>
           <option value="beginner">Beginner</option>
           <option value="intermediate">Intermediate</option>
           <option value="advanced">Advanced</option>
