@@ -35,7 +35,7 @@ export default function RootLayout({
         <div className="container max-w-[100vw]">
           <div className="sidebar">
             <Link className="logo" href="/">
-              CHITTI.
+              CHITTI. Admin
             </Link>
             <nav className="navbar">
               <h3>Resources</h3>
@@ -82,9 +82,14 @@ export default function RootLayout({
                 Management Basket
               </Link>
 
-              {/* <h3>Statistics</h3> */}
+              <h3>Previlages</h3>
+              <Link
+                href="/revoke-device"
+                className={pathname.includes("/revoke-device") ? "active" : ""}
+              >
+                Revoke Device
+              </Link>
             </nav>
-            {/* <button className="addcourse" onClick={() => addResource()}>Add Courses</button> */}
           </div>
           {children}
         </div>
