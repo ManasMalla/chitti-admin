@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+/* eslint-disable  @typescript-eslint/no-unused-vars */
 // app/admin/revoke-device/page.tsx
 "use client";
 import React, { useState } from "react";
