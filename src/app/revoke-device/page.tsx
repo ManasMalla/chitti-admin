@@ -69,7 +69,7 @@ function RevokeDevicePage() {
         />
         <button
           onClick={handleRevokeDevice}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 cursor-pointer"
         >
           Revoke
         </button>
