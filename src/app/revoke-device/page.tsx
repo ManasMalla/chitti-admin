@@ -11,7 +11,7 @@ function RevokeDevicePage() {
   const handleRevokeDevice = async () => {
     try {
       const response = await fetch(
-        "https://webapi-zu6v4azneq-el.a.run.app/admin/revoke-device-id",
+        "https://webapi-zu6v4azneq-el.a.run.app/revoke-device-id",
         {
           // Adjust the endpoint if needed
           method: "POST",
