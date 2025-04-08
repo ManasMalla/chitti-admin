@@ -20,7 +20,7 @@ function RevokeDevicePage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ rollno: rollNo }),
+          body: JSON.stringify({ rollNo: rollNo }),
         }
       );
 
