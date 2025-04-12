@@ -15,7 +15,7 @@ function RevokeDevicePage() {
     try {
       const token = getCookie("idToken");
       const currentToken = new Date().getTime() / 1000;
-      if(currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+      if(token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
         alert("Token expired.");
         window.location.href = "/";
       }

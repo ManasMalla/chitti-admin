@@ -114,7 +114,7 @@ export default function CourseDetails(props: any) {
                                                 setIsLoading(true);
                                                 const token = getCookie("idToken");
                                                 const currentToken = new Date().getTime() / 1000;
-                                                if (currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+                                                if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
                                                     alert("Token expired.");
                                                     window.location.href = "/";
                                                 }
@@ -193,7 +193,7 @@ export default function CourseDetails(props: any) {
                                                 );
                                                 const token = getCookie("idToken");
                                                 const currentToken = new Date().getTime() / 1000;
-                                                if (currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+                                                if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
                                                     alert("Token expired.");
                                                     window.location.href = "/";
                                                 }

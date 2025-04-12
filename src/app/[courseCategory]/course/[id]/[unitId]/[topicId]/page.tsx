@@ -23,7 +23,7 @@ export default function Page() {
         const fetchData = async () => {
             const token = getCookie("idToken");
             const currentToken = new Date().getTime() / 1000;
-            if (currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+            if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
                 alert("Token expired.");
                 window.location.href = "/";
             }
@@ -109,7 +109,7 @@ export default function Page() {
                                             ]).then(() => {
                                                 const token = getCookie("idToken");
                                                 const currentToken = new Date().getTime() / 1000;
-                                                if (currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+                                                if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
                                                     alert("Token expired.");
                                                     window.location.href = "/";
                                                 }
@@ -222,7 +222,7 @@ export default function Page() {
                                         const storageRef = ref(storage, note.url);
                                         const token = getCookie("idToken");
                                         const currentToken = new Date().getTime() / 1000;
-                                        if (currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+                                        if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
                                             alert("Token expired.");
                                             window.location.href = "/";
                                         }
@@ -284,7 +284,7 @@ export default function Page() {
                                         const storageRef = ref(storage, cheatsheet.url);
                                         const token = getCookie("idToken");
                                         const currentToken = new Date().getTime() / 1000;
-                                        if (currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+                                        if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
                                             alert("Token expired.");
                                             window.location.href = "/";
                                         }
