@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import "tailwindcss/index.css";
+import {getCookie} from "cookies-next/client";
 
 export default function Page() {
   const [courseData, setCourseData] = useState(undefined);
@@ -20,10 +21,15 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
+        const token = getCookie("idToken");
       const response = await fetch(
         `https://webapi-zu6v4azneq-el.a.run.app/admin/unit/${
           pathname.split("course/")[1]
-        }/all`
+        }/all`,{
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+          }
       );
       const data = await response.json();
       setCourseData(data);

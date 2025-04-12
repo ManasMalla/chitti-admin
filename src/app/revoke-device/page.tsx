@@ -4,6 +4,7 @@
 "use client";
 import React, { useState } from "react";
 import "tailwindcss/index.css";
+import {getCookie} from "cookies-next/client";
 
 function RevokeDevicePage() {
   const [rollNo, setRollNo] = useState("");
@@ -12,6 +13,12 @@ function RevokeDevicePage() {
 
   const handleRevokeDevice = async () => {
     try {
+      const token = getCookie("idToken");
+      const currentToken = new Date().getTime() / 1000;
+      if(currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+        alert("Token expired.");
+        window.location.href = "/";
+      }
       const response = await fetch(
         "https://webapi-zu6v4azneq-el.a.run.app/revoke-device-id",
         {
@@ -19,6 +26,7 @@ function RevokeDevicePage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify({ rollNo: rollNo }),
         }

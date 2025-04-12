@@ -35,7 +35,6 @@
 }
 
 .main ol {
-  font-family: var(--font-geist-mono);
   padding-left: 0;
   margin: 0;
   font-size: 14px;
@@ -162,4 +161,19 @@ a.secondary {
   .logo {
     filter: invert();
   }
+}
+
+.login-section {
+  display: flex;
+  gap: 16px;
+  align-items: start;
+  flex-direction: column;
+}
+
+.login-section input {
+  padding: 16px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #1a1a1a;
+  font-size: 16px;
 }

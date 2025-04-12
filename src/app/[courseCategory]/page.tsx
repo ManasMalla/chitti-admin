@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 // import Link from "next/link";
 
 import { useEffect, useState } from "react";
+import {getCookie} from "cookies-next/client";
 
 export default function Home() {
   const { courseCategory } = useParams();
@@ -13,8 +14,15 @@ export default function Home() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     console.log(window.location.hash);
+      const token = getCookie("idToken");
     fetch(
-      `https://webapi-zu6v4azneq-el.a.run.app/get-courses-for-category?courseCategory=${courseCategory}`
+      `https://webapi-zu6v4azneq-el.a.run.app/admin/get-courses-for-category?courseCategory=${courseCategory}`,
+        {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            redirect: "follow"
+        }
     )
       .then((response) => response.json())
       .then((data) => {
