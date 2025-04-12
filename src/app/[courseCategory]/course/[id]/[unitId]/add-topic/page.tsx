@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
+import {getCookie} from "cookies-next/client";
 
 export default function Page() {
   const params = usePathname();
@@ -16,22 +17,31 @@ export default function Page() {
   const [messageType, setMessageType] = useState(""); // 'success' or 'error'
 
   const handleSubmit = async (e: any) => {
+
     e.preventDefault();
 
     const courseId = params.replace("/add-topic", "").split("/")[
       params.split("/").length - 3
     ];
-    const unitId = params.replace("/add-topic", "").split("/").pop();
 
+    const unitId = params.replace("/add-topic", "").split("/").pop();
+    const token = getCookie("idToken");
+    const currentToken = new Date().getTime() / 1000;
+    if(currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+      alert("Token expired.");
+      window.location.href = "/";
+    }
     try {
       const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/${courseId}/${unitId}/addRoadmap`,
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${courseId}/${unitId}/addRoadmap`,
         {
           //IMPORTANT:  Use /api route
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
+          redirect: "follow",
           body: JSON.stringify({
             name: `${topicNamePrefix} ${topicName}`,
             difficulty: difficulty,

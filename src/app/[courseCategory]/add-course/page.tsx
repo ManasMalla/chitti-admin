@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import styles from "./AddCourseForm.module.css";
 import { usePathname } from "next/navigation";
+import {getCookie} from "cookies-next/client";
 
 function AddCourseForm() {
   const [courseId, setCourseId] = useState("");
@@ -17,12 +18,20 @@ function AddCourseForm() {
     e.preventDefault();
 
     try {
+      const token = getCookie("idToken");
+      const currentToken = new Date().getTime() / 1000;
+      if(currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+        alert("Token expired.");
+        window.location.href = "/";
+      }
       const response = await fetch(
         `https://webapi-zu6v4azneq-el.a.run.app/admin/addCourse`,
         {
           method: "POST",
+          redirect: "follow",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify({
             courseId,

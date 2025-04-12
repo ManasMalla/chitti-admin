@@ -4,6 +4,7 @@
 import CourseDetails from "@/components/course-details";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import {getCookie} from "cookies-next/client";
 
 export default function CoursePage() {
   const post = useParams();
@@ -11,7 +12,19 @@ export default function CoursePage() {
   const [course, setCourse] = useState<any>(undefined);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/${courseId}`)
+    const token = getCookie("idToken");
+    const currentToken = new Date().getTime() / 1000;
+    if(currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+      alert("Token expired.");
+      window.location.href = "/";
+    }
+
+    fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/course/${courseId}`, {
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         const apiResponse = data;
@@ -56,7 +69,12 @@ export default function CoursePage() {
               onClick={() => {
                 const newURL = prompt("New Image URL");
                 console.log(newURL);
-
+                const token = getCookie("idToken");
+                const currentToken = new Date().getTime() / 1000;
+                if(currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+                  alert("Token expired.");
+                  window.location.href = "/";
+                }
                 if (newURL) {
                   fetch(
                     `https://webapi-zu6v4azneq-el.a.run.app/admin/edit-course/${courseId}`,
@@ -67,7 +85,9 @@ export default function CoursePage() {
                       }),
                       headers: {
                         "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
                       },
+                      redirect: "follow"
                     }
                   )
                     .then((res) => res.json())

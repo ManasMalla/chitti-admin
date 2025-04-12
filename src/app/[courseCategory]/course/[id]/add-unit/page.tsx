@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AddUnitForm.module.css";
 import { usePathname } from "next/navigation";
+import {getCookie} from "cookies-next/client";
 
 export default function Page() {
   const courseId = usePathname().split("/")[3];
@@ -22,13 +23,21 @@ export default function Page() {
     const cid = courseId;
 
     try {
+      const token = getCookie("idToken");
+      const currentToken = new Date().getTime() / 1000;
+      if(currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+        alert("Token expired.");
+        window.location.href = "/";
+      }
       const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/${cid}/addUnit`,
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${cid}/addUnit`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
+          redirect: "follow",
           body: JSON.stringify({
             unitNo: parseInt(unitNo), // Convert to integer
             unitName,
