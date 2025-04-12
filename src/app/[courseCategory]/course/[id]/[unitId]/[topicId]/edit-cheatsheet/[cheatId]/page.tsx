@@ -12,6 +12,7 @@ import {
 } from "firebase/storage";
 import app from "@/lib/firebase";
 import { useParams, usePathname } from "next/navigation";
+import {getCookie} from "cookies-next/client";
 
 const AddCheatsheetPage = () => {
   const [name, setName] = useState("");
@@ -29,8 +30,20 @@ const AddCheatsheetPage = () => {
     // fetch the cheatsheet details from the API
     const fetchCheatsheetDetails = async () => {
       try {
+        const token = getCookie("idToken");
+        const currentToken = new Date().getTime() / 1000;
+        if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+          alert("Token expired.");
+          window.location.href = "/";
+        }
         const response = await fetch(
-          `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/get-cheatsheet/${cheatId}`
+          `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${route}/get-cheatsheet/${cheatId}`,
+            {
+              headers: {
+                "Authorization": `Bearer ${token}`
+              },
+              redirect: "follow"
+            }
         );
         const data = await response.json();
 
@@ -124,11 +137,19 @@ const AddCheatsheetPage = () => {
           : "File uploaded. Adding cheatsheet details..."
       );
 
+      const token = getCookie("idToken");
+      const currentToken = new Date().getTime() / 1000;
+      if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+        alert("Token expired.");
+        window.location.href = "/";
+      }
+
       const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/${route}/edit-cheatsheet/${cheatId}`,
+        `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${route}/edit-cheatsheet/${cheatId}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+          redirect: "follow",
           body: JSON.stringify({ url: fileURL, name }),
         }
       );
