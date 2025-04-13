@@ -45,30 +45,36 @@ export default function RootLayout({
         <div className="container max-w-[100vw]">
           {pathname != "/" && (
             <div className="sidebar">
-              <Link className="logo" href="/">
-                CHITTI. Admin
-              </Link>
+              <div>
+                <Link className="logo" href="/">
+                  CHITTI.
+                </Link>
+                <p style={{
+                  fontSize: "0.7rem",
+                  marginBottom: "1rem",
+                }}>Your last minute exam prep</p>
+              </div>
               <nav className="navbar">
                 <h3>Resources</h3>
                 <Link
                   href="/university-core"
                   className={
-                    pathname.includes("/university-core") ? "active" : ""
+                     pathname.includes("/university-core") ? "active" : ""
                   }
                 >
-                  University Core
+                  <span className="material-symbols-outlined">school</span> University Core
                 </Link>
                 <Link
                   href="/faculty-core"
                   className={pathname.includes("/faculty-core") ? "active" : ""}
                 >
-                  Faculty Core
+                  <span className="material-symbols-outlined">face_4</span> Faculty Core
                 </Link>
                 <Link
                   href="/program-core"
                   className={pathname.includes("/program-core") ? "active" : ""}
                 >
-                  Program Core
+                  <span className="material-symbols-outlined">code</span> Program Core
                 </Link>
                 <Link
                   href="/program-elective"
@@ -76,7 +82,7 @@ export default function RootLayout({
                     pathname.includes("/program-elective") ? "active" : ""
                   }
                 >
-                  Program Elective
+                  <span className="material-symbols-outlined">head_mounted_device</span> Program Elective
                 </Link>
                 <Link
                   href="/open-elective"
@@ -84,7 +90,7 @@ export default function RootLayout({
                     pathname.includes("/open-elective") ? "active" : ""
                   }
                 >
-                  Open Elective
+                  <span className="material-symbols-outlined">biotech</span> Open Elective
                 </Link>
                 <Link
                   href="/management-basket"
@@ -92,7 +98,7 @@ export default function RootLayout({
                     pathname.includes("/management-basket") ? "active" : ""
                   }
                 >
-                  Management Basket
+                  <span className="material-symbols-outlined">business_center</span> Management Basket
                 </Link>
 
                 <h3>Previlages</h3>
@@ -102,7 +108,7 @@ export default function RootLayout({
                     pathname.includes("/revoke-device") ? "active" : ""
                   }
                 >
-                  Revoke Device
+                  <span className="material-symbols-outlined">devices</span> Revoke Device
                 </Link>
               </nav>
             </div>

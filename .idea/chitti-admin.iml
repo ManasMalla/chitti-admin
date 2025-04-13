@@ -9,6 +9,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="functions" />
+    <orderEntry type="module" module-name="chitti-landing" />
     <orderEntry type="module" module-name="chitti" />
   </component>
 </module>

@@ -58,7 +58,9 @@ export default function Home() {
                         key={r.courseId}
                     >
                         <div>
-                            <h3>{r.title}</h3>
+                            <img src={r.image} alt={r.title} />
+                            <h3>{r.title.split(" ").map((e: string)=> e[0].toUpperCase() + e.substring(1).toLowerCase()).join(" ")}</h3>
+                            <p>{r.description}</p>
                         </div>
                     </a>
                 ))}
