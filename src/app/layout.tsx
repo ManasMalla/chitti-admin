@@ -1,16 +1,11 @@
 "use client";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const geistSans = Geist({
+const geistSans = Plus_Jakarta_Sans({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -41,7 +36,7 @@ export default function RootLayout({
           rel="stylesheet"
         ></link>
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.className} dark:bg-black dark:text-white`}>
         <div className="container max-w-[100vw]">
           {pathname != "/" && (
             <div className="sidebar">
@@ -49,32 +44,39 @@ export default function RootLayout({
                 <Link className="logo" href="/">
                   CHITTI.
                 </Link>
-                <p style={{
-                  fontSize: "0.7rem",
-                  marginBottom: "1rem",
-                }}>Your last minute exam prep</p>
+                <p
+                  style={{
+                    fontSize: "0.7rem",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Your last minute exam prep
+                </p>
               </div>
               <nav className="navbar">
                 <h3>Resources</h3>
                 <Link
                   href="/university-core"
                   className={
-                     pathname.includes("/university-core") ? "active" : ""
+                    pathname.includes("/university-core") ? "active" : ""
                   }
                 >
-                  <span className="material-symbols-outlined">school</span> University Core
+                  <span className="material-symbols-outlined">school</span>{" "}
+                  University Core
                 </Link>
                 <Link
                   href="/faculty-core"
                   className={pathname.includes("/faculty-core") ? "active" : ""}
                 >
-                  <span className="material-symbols-outlined">face_4</span> Faculty Core
+                  <span className="material-symbols-outlined">face_4</span>{" "}
+                  Faculty Core
                 </Link>
                 <Link
                   href="/program-core"
                   className={pathname.includes("/program-core") ? "active" : ""}
                 >
-                  <span className="material-symbols-outlined">code</span> Program Core
+                  <span className="material-symbols-outlined">code</span>{" "}
+                  Program Core
                 </Link>
                 <Link
                   href="/program-elective"
@@ -82,7 +84,10 @@ export default function RootLayout({
                     pathname.includes("/program-elective") ? "active" : ""
                   }
                 >
-                  <span className="material-symbols-outlined">head_mounted_device</span> Program Elective
+                  <span className="material-symbols-outlined">
+                    head_mounted_device
+                  </span>{" "}
+                  Program Elective
                 </Link>
                 <Link
                   href="/open-elective"
@@ -90,7 +95,8 @@ export default function RootLayout({
                     pathname.includes("/open-elective") ? "active" : ""
                   }
                 >
-                  <span className="material-symbols-outlined">biotech</span> Open Elective
+                  <span className="material-symbols-outlined">biotech</span>{" "}
+                  Open Elective
                 </Link>
                 <Link
                   href="/management-basket"
@@ -98,7 +104,10 @@ export default function RootLayout({
                     pathname.includes("/management-basket") ? "active" : ""
                   }
                 >
-                  <span className="material-symbols-outlined">business_center</span> Management Basket
+                  <span className="material-symbols-outlined">
+                    business_center
+                  </span>{" "}
+                  Management Basket
                 </Link>
 
                 <h3>Previlages</h3>
@@ -108,7 +117,8 @@ export default function RootLayout({
                     pathname.includes("/revoke-device") ? "active" : ""
                   }
                 >
-                  <span className="material-symbols-outlined">devices</span> Revoke Device
+                  <span className="material-symbols-outlined">devices</span>{" "}
+                  Revoke Device
                 </Link>
               </nav>
             </div>

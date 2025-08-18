@@ -4,7 +4,7 @@
 import CourseDetails from "@/components/course-details";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import {getCookie} from "cookies-next/client";
+import { getCookie } from "cookies-next/client";
 
 export default function CoursePage() {
   const post = useParams();
@@ -14,7 +14,10 @@ export default function CoursePage() {
     if (typeof window === "undefined") return;
     const token = getCookie("idToken");
     const currentToken = new Date().getTime() / 1000;
-    if(token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+    if (
+      token === undefined ||
+      currentToken > JSON.parse(atob((token || "").split(".")[1])).exp
+    ) {
       alert("Token expired.");
       window.location.href = "/";
     }
@@ -22,8 +25,8 @@ export default function CoursePage() {
     fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/course/${courseId}`, {
       redirect: "follow",
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -38,7 +41,7 @@ export default function CoursePage() {
             name: unit.name,
             description: unit.description,
             importantQuestions: unit.importantQuestions,
-            topics: unit.roadmap.map((topic: any) => {
+            topics: unit.topic.map((topic: any) => {
               return {
                 name: topic.name,
                 id: topic.roadId,
@@ -71,7 +74,11 @@ export default function CoursePage() {
                 console.log(newURL);
                 const token = getCookie("idToken");
                 const currentToken = new Date().getTime() / 1000;
-                if(token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+                if (
+                  token === undefined ||
+                  currentToken >
+                    JSON.parse(atob((token || "").split(".")[1])).exp
+                ) {
                   alert("Token expired.");
                   window.location.href = "/";
                 }
@@ -85,9 +92,9 @@ export default function CoursePage() {
                       }),
                       headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
                       },
-                      redirect: "follow"
+                      redirect: "follow",
                     }
                   )
                     .then((res) => res.json())

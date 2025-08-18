@@ -43,7 +43,7 @@ export default function Home() {
                         <div className="flex flex-row-reverse w-max p-2 px-3 border-2 border-black rounded-full items-center gap-2"><h2>{user?.uid || "Loading.."}</h2>
                             <img src="https://doeresults.gitam.edu/photo/img.aspx?id=VU22CSEN0100009"
                                  className="size-6 object-cover object-top rounded-full"/></div>
-                        <Link href="/program-core" className="bg-black py-3 px-6 text-white rounded-full cursor-pointer mt-auto flex items-center gap-2">Continue to admin panel <span className="material-symbols-outlined">arrow_forward</span></Link>
+                        <Link href="/program-core" className="bg-black py-3 px-6 text-white rounded-full cursor-pointer mt-auto flex items-center gap-2 border border-black dark:border-white">Continue to admin panel <span className="material-symbols-outlined">arrow_forward</span></Link>
                     </div>
 
                 </div>
@@ -92,7 +92,7 @@ export default function Home() {
                         <div className={styles["login-section"]}>
                             <input name="rollNo" placeholder="Roll Number"/>
                             <input name="password" type="password" placeholder="Password"/>
-                            <button className="bg-black py-3 px-8 text-white rounded-full cursor-pointer">Login</button>
+                            <button className="bg-black py-3 px-8 text-white rounded-full cursor-pointer dark:bg-white dark:text-black">Login</button>
                         </div>
                     </form>
                     <div className="grow"/>
