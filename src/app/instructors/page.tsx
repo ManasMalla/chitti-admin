@@ -118,7 +118,7 @@ function InstructorPage() {
 
       <div className="flex items-center mb-4">
         {instructors?.length > 0 ? (
-          <div>
+          <div className="flex flex-wrap gap-4">
             {instructors.map((instructor) => (
               <div
                 key={instructor.instructorId}
@@ -130,6 +130,9 @@ function InstructorPage() {
                   className="size-24 rounded-full mr-2"
                 />
                 <h3 className="mt-4 font-semibold">{instructor.name}</h3>
+                <p className="text-sm text-gray-500">
+                  {instructor.instructorId}
+                </p>
                 <p className="text-sm text-gray-500 line-clamp-3">
                   {instructor.bio}
                 </p>
@@ -159,12 +162,6 @@ function InstructorPage() {
           <p className="text-gray-500">No instructors found.</p>
         )}
       </div>
-      <button
-        onClick={handleAddInstructor}
-        className="mt-4 text-white font-medium py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 cursor-pointer focus:outline-none focus:shadow-outline"
-      >
-        Add Instructor
-      </button>
     </div>
   );
 }

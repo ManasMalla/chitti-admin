@@ -1,4 +1,3 @@
-  
 /* styles/AddCourseForm.module.css */
 
 .container {
@@ -21,7 +20,8 @@
 }
 
 .form input,
-.form textarea {
+.form textarea,
+.form select {
   padding: 8px;
   margin-top: 5px;
   margin-bottom: 10px;
@@ -35,6 +35,7 @@
 }
 
 .form button {
+  margin-top: 12px;
   padding: 10px 20px;
   background-color: #007bff;
   color: white;

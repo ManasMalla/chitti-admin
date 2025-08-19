@@ -160,31 +160,31 @@ export default function AddInstructorPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="max-w-2xl mx-auto p-6 min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
           Add New Instructor
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-300">
           Fill in the details below to add a new instructor
         </p>
       </div>
 
       {status === "success" && (
-        <div className="bg-green-100 text-green-700 border border-green-400 px-4 py-2 rounded-md mb-6">
+        <div className="bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-400 dark:border-green-600 px-4 py-2 rounded-md mb-6">
           {message}
         </div>
       )}
 
       {status === "error" && (
-        <div className="bg-red-100 text-red-700 border border-red-400 px-4 py-2 rounded-md mb-6">
+        <div className="bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-400 dark:border-red-600 px-4 py-2 rounded-md mb-6">
           {message}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Name *
           </label>
           <input
@@ -192,13 +192,13 @@ export default function AddInstructorPage() {
             onChange={(e) => setName(e.target.value)}
             required
             type="text"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
             placeholder="Enter instructor name"
-          />9
+          />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Profile Image *
           </label>
 
@@ -213,9 +213,11 @@ export default function AddInstructorPage() {
                 onChange={(e) =>
                   setUploadMethod(e.target.value as "file" | "url")
                 }
-                className="mr-2"
+                className="mr-2 text-blue-600 dark:text-blue-400"
               />
-              Upload File
+              <span className="text-gray-700 dark:text-gray-300">
+                Upload File
+              </span>
             </label>
             <label className="flex items-center">
               <input
@@ -226,9 +228,11 @@ export default function AddInstructorPage() {
                 onChange={(e) =>
                   setUploadMethod(e.target.value as "file" | "url")
                 }
-                className="mr-2"
+                className="mr-2 text-blue-600 dark:text-blue-400"
               />
-              Image URL
+              <span className="text-gray-700 dark:text-gray-300">
+                Image URL
+              </span>
             </label>
           </div>
 
@@ -240,24 +244,26 @@ export default function AddInstructorPage() {
                 onChange={handleFileChange}
                 required={uploadMethod === "file"}
                 disabled={uploadingImage}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 dark:file:bg-blue-900/20 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
               />
               {uploadingImage && (
-                <div className="mt-2 text-sm text-blue-600">
+                <div className="mt-2 text-sm text-blue-600 dark:text-blue-400">
                   Preparing image for upload...
                 </div>
               )}
               {imagePreview && (
                 <div className="mt-4">
-                  <p className="text-sm text-gray-600 mb-2">Preview:</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    Preview:
+                  </p>
                   <img
                     src={imagePreview}
                     alt="Preview"
-                    className="w-24 h-24 object-cover rounded-full border-2 border-gray-300"
+                    className="w-24 h-24 object-cover rounded-full border-2 border-gray-300 dark:border-gray-600"
                   />
                 </div>
               )}
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                 Supported formats: JPG, PNG, GIF. Max size: 5MB
               </p>
             </div>
@@ -267,14 +273,14 @@ export default function AddInstructorPage() {
               onChange={(e) => setImage(e.target.value)}
               required={uploadMethod === "url"}
               type="url"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
               placeholder="https://example.com/image.jpg"
             />
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Bio *
           </label>
           <textarea
@@ -282,14 +288,14 @@ export default function AddInstructorPage() {
             onChange={(e) => setBio(e.target.value)}
             required
             rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
             placeholder="Enter instructor bio/description"
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               GPA *
             </label>
             <input
@@ -300,13 +306,13 @@ export default function AddInstructorPage() {
               step="0.01"
               min="0"
               max="10"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
               placeholder="3.5"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Teaching Hours *
             </label>
             <input
@@ -315,7 +321,7 @@ export default function AddInstructorPage() {
               required
               type="number"
               min="1"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
               placeholder="40"
             />
           </div>
@@ -325,7 +331,7 @@ export default function AddInstructorPage() {
           <button
             type="submit"
             disabled={loading || uploadingImage}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="flex-1 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-blue-400 dark:disabled:bg-blue-600 text-white font-medium py-3 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
           >
             {uploadingImage
               ? "Uploading Image..."
@@ -338,7 +344,7 @@ export default function AddInstructorPage() {
             type="button"
             onClick={() => router.push("/instructors")}
             disabled={loading || uploadingImage}
-            className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 font-medium rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>

@@ -1,9 +1,18 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./AddCourseForm.module.css";
 import { usePathname } from "next/navigation";
-import {getCookie} from "cookies-next/client";
+import { getCookie } from "cookies-next/client";
+
+interface Instructor {
+  _id: string;
+  name: string;
+  bio: string;
+  image: string;
+  gpa: number;
+  hours: number;
+}
 
 function AddCourseForm() {
   const [courseId, setCourseId] = useState("");
@@ -11,8 +20,60 @@ function AddCourseForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const [instructorId, setInstructorId] = useState("");
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
+  const [loadingInstructors, setLoadingInstructors] = useState(false);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<any>(null); // null, 'success', 'error'
+
+  // Fetch instructors on component mount
+  useEffect(() => {
+    const fetchInstructors = async () => {
+      setLoadingInstructors(true);
+      try {
+        const token = getCookie("idToken");
+        const currentToken = new Date().getTime() / 1000;
+
+        if (
+          token === undefined ||
+          currentToken > JSON.parse(atob((token || "").split(".")[1])).exp
+        ) {
+          alert("Token expired.");
+          window.location.href = "/";
+          return;
+        }
+
+        const response = await fetch(
+          "https://webapi-zu6v4azneq-el.a.run.app/admin/instructors",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setInstructors(data || []);
+
+          console.log("Response status:", response.status);
+        } else {
+          console.error("Failed to fetch instructors");
+          setMessage("Failed to load instructors");
+          setStatus("error");
+        }
+      } catch (error) {
+        console.error("Error fetching instructors:", error);
+        setMessage("Failed to load instructors");
+        setStatus("error");
+      } finally {
+        setLoadingInstructors(false);
+      }
+    };
+
+    fetchInstructors();
+  }, []);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -20,7 +81,10 @@ function AddCourseForm() {
     try {
       const token = getCookie("idToken");
       const currentToken = new Date().getTime() / 1000;
-      if(token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+      if (
+        token === undefined ||
+        currentToken > JSON.parse(atob((token || "").split(".")[1])).exp
+      ) {
         alert("Token expired.");
         window.location.href = "/";
       }
@@ -31,7 +95,7 @@ function AddCourseForm() {
           redirect: "follow",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             courseId,
@@ -39,6 +103,7 @@ function AddCourseForm() {
             title,
             description,
             image,
+            instructorId,
           }),
         }
       );
@@ -53,6 +118,7 @@ function AddCourseForm() {
         setTitle("");
         setDescription("");
         setImage("");
+        setInstructorId("");
       } else {
         setMessage(data.message || "An error occurred.");
         setStatus("error");
@@ -82,6 +148,7 @@ function AddCourseForm() {
           onChange={(e) => setCourseId(e.target.value)}
           required
         />
+
         <label htmlFor="title">Title:</label>
         <input
           type="text"
@@ -108,7 +175,30 @@ function AddCourseForm() {
           required
         />
 
-        <button type="submit">Add Course</button>
+        <label htmlFor="instructor">Instructor:</label>
+        <select
+          id="instructor"
+          value={instructorId}
+          onChange={(e) => setInstructorId(e.target.value)}
+          required
+          disabled={loadingInstructors}
+        >
+          <option value="">
+            {loadingInstructors
+              ? "Loading instructors..."
+              : "Select an instructor"}
+          </option>
+          {instructors.map((instructor) => (
+            <option key={instructor._id} value={instructor._id}>
+              {instructor.name} (GPA: {instructor.gpa}, Hours:{" "}
+              {instructor.hours})
+            </option>
+          ))}
+        </select>
+
+        <button type="submit" disabled={loadingInstructors}>
+          Add Course
+        </button>
       </form>
     </div>
   );
