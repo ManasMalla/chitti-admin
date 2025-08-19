@@ -120,6 +120,15 @@ export default function RootLayout({
                   <span className="material-symbols-outlined">devices</span>{" "}
                   Revoke Device
                 </Link>
+                <Link
+                  href="/instructors"
+                  className={pathname.includes("/instructors") ? "active" : ""}
+                >
+                  <span className="material-symbols-outlined">
+                    communication
+                  </span>{" "}
+                  Manage Instructors
+                </Link>
               </nav>
             </div>
           )}
