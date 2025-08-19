@@ -1,5 +1,5 @@
 "use client";
-import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
