@@ -8,6 +8,7 @@ import { getAuth, signInWithCustomToken, User } from "@firebase/auth";
 import { useRouter } from "next/navigation";
 import { getCookie, setCookie } from "cookies-next/client";
 import Link from "next/link";
+import BASE_URL from "@/lib/constants";
 // import Link from "next/link";
 
 export default function Home() {
@@ -86,7 +87,7 @@ export default function Home() {
                 const rollNumber = formData.get("rollNo");
                 const password = formData.get("password");
                 const auth = getAuth(app);
-                fetch("https://webapi-zu6v4azneq-el.a.run.app/admin-login", {
+                fetch(`${BASE_URL}/admin/login`, {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
