@@ -8,7 +8,7 @@ import { getAuth, signInWithCustomToken, User } from "@firebase/auth";
 import { useRouter } from "next/navigation";
 import { getCookie, setCookie } from "cookies-next/client";
 import Link from "next/link";
-import BASE_URL from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 // import Link from "next/link";
 
 export default function Home() {
@@ -126,8 +126,11 @@ export default function Home() {
             </form>
             <div className="grow" />
             <p className="text-gray-600 dark:text-gray-300">
-              © 2025 <span className="font-medium text-black dark:text-white">theananta</span>.
-              All Rights Reserved.
+              © 2025{" "}
+              <span className="font-medium text-black dark:text-white">
+                theananta
+              </span>
+              . All Rights Reserved.
             </p>
           </div>
         </main>
