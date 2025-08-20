@@ -124,7 +124,7 @@ export default function CourseDetails(props: any) {
                           window.location.href = "/";
                         }
                         fetch(
-                          `${BASE_URL}/admin/course/${props.courseId}/${unit.id}/edit-topic/${topic.id}`,
+                          `${BASE_URL}/admin/roadmap/${props.courseId}/${unit.id}/topic/${topic.id}/difficulty`,
                           {
                             method: "PATCH",
                             redirect: "follow",
@@ -200,7 +200,7 @@ export default function CourseDetails(props: any) {
                         }
                         Promise.all([deleteObject(storageRef)]).then(() => {
                           fetch(
-                            `${BASE_URL}/admin/course/${unit.importantQuestions[0].courseId}/${unit.importantQuestions[0].unitId}/delete-iq/${unit.importantQuestions[0].iqId}`,
+                            `${BASE_URL}/admin/resource/${unit.importantQuestions[0].courseId}/${unit.importantQuestions[0].unitId}/iq/${unit.importantQuestions[0].iqId}`,
                             {
                               method: "DELETE",
                               redirect: "follow",

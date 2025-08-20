@@ -33,7 +33,7 @@ export default function Page() {
         alert("Token expired.");
         window.location.href = "/";
       }
-      const response = await fetch(`${BASE_URL}/admin/course/${cid}/addUnit`, {
+      const response = await fetch(`${BASE_URL}/admin/course/${cid}/unit`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

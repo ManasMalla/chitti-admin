@@ -13,8 +13,9 @@ import {
 } from "firebase/storage";
 import app from "@/lib/firebase";
 import { useParams, usePathname } from "next/navigation";
-import {getCookie} from "cookies-next/client";
-import {headers} from "next/headers";
+import { getCookie } from "cookies-next/client";
+import { headers } from "next/headers";
+import { BASE_URL } from "@/lib/constants";
 
 const EditNotesPage = () => {
   const [name, setName] = useState("");
@@ -33,18 +34,21 @@ const EditNotesPage = () => {
       try {
         const token = getCookie("idToken");
         const currentToken = new Date().getTime() / 1000;
-        if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+        if (
+          token === undefined ||
+          currentToken > JSON.parse(atob((token || "").split(".")[1])).exp
+        ) {
           alert("Token expired.");
           window.location.href = "/";
         }
         const response = await fetch(
-          `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${route}/get-notes/${notesId}`, // Corrected API endpoint
-        {
-          headers: {
-            "Authentication": `Bearer ${token}`
-          },
-          redirect: "follow"
-        }
+          `${BASE_URL}/admin/resource/${route}/notes/${notesId}`, // Corrected API endpoint
+          {
+            headers: {
+              Authentication: `Bearer ${token}`,
+            },
+            redirect: "follow",
+          }
         );
         const data = await response.json();
 
@@ -159,17 +163,20 @@ const EditNotesPage = () => {
       setMessage("File uploaded.  Updating note details...");
       const token = getCookie("idToken");
       const currentToken = new Date().getTime() / 1000;
-      if (token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp) {
+      if (
+        token === undefined ||
+        currentToken > JSON.parse(atob((token || "").split(".")[1])).exp
+      ) {
         alert("Token expired.");
         window.location.href = "/";
       }
       const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${route}/edit-notes/${notesId}`, // Corrected API endpoint
+        `${BASE_URL}/admin/resource/${route}/notes/${notesId}`, // Corrected API endpoint
         {
           method: "PATCH", // Changed to PATCH for updating
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           redirect: "follow",
           body: JSON.stringify({ url: downloadURL, name: name }),

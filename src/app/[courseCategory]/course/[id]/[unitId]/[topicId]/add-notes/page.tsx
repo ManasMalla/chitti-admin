@@ -114,7 +114,7 @@ const AddNotesPage = () => {
         window.location.href = "/";
       }
       const response = await fetch(
-        `${BASE_URL}/admin/course/${route}/addNotes`,
+        `${BASE_URL}/admin/resource/${route}/notes`,
         {
           method: "POST",
           headers: {

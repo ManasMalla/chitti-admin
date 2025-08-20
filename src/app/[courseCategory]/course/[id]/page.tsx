@@ -84,7 +84,7 @@ export default function CoursePage() {
                   window.location.href = "/";
                 }
                 if (newURL) {
-                  fetch(`${BASE_URL}/admin/edit-course/${courseId}`, {
+                  fetch(`${BASE_URL}/admin/course/${courseId}`, {
                     method: "PATCH",
                     body: JSON.stringify({
                       image: newURL,

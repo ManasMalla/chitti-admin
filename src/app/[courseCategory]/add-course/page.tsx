@@ -86,7 +86,7 @@ function AddCourseForm() {
         alert("Token expired.");
         window.location.href = "/";
       }
-      const response = await fetch(`${BASE_URL}/admin/addCourse`, {
+      const response = await fetch(`${BASE_URL}/admin/course`, {
         method: "POST",
         redirect: "follow",
         headers: {

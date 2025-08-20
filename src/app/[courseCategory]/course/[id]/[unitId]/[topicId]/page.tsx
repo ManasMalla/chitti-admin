@@ -31,7 +31,7 @@ export default function Page() {
         window.location.href = "/";
       }
       const response = await fetch(
-        `${BASE_URL}/admin/unit/${pathname.split("course/")[1]}/all`,
+        `${BASE_URL}/admin/resource/${pathname.split("course/")[1]}/all`,
         {
           redirect: "follow",
           headers: {
@@ -119,9 +119,9 @@ export default function Page() {
                           window.location.href = "/";
                         }
                         fetch(
-                          `${BASE_URL}/admin/course/${
+                          `${BASE_URL}/admin/resource/${
                             pathname.split("course/")[1]
-                          }/delete-video/${video.videoId}`,
+                          }/video/${video.videoId}`,
                           {
                             method: "DELETE",
                             redirect: "follow",
@@ -237,9 +237,9 @@ export default function Page() {
                     }
                     deleteObject(storageRef).then(() => {
                       fetch(
-                        `${BASE_URL}/admin/course/${
+                        `${BASE_URL}/admin/resource/${
                           pathname.split("course/")[1]
-                        }/delete-notes/${note.notesId}`,
+                        }/notes/${note.notesId}`,
                         {
                           method: "DELETE",
                           headers: {
@@ -304,9 +304,9 @@ export default function Page() {
                     }
                     deleteObject(storageRef).then(() => {
                       fetch(
-                        `${BASE_URL}/admin/course/${
+                        `${BASE_URL}/admin/resource/${
                           pathname.split("course/")[1]
-                        }/delete-cheatsheet/${cheatsheet.cheatId}`,
+                        }/cheatsheet/${cheatsheet.cheatId}`,
                         {
                           method: "DELETE",
                           headers: {

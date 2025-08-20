@@ -36,7 +36,7 @@ export default function Page() {
     }
     try {
       const response = await fetch(
-        `${BASE_URL}/admin/course/${courseId}/${unitId}/addTopic`,
+        `${BASE_URL}/admin/unit/${courseId}/${unitId}/topic`,
         {
           //IMPORTANT:  Use /api route
           method: "POST",

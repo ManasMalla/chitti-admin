@@ -23,15 +23,12 @@ export default function Home() {
       alert("Token expired.");
       window.location.href = "/";
     }
-    fetch(
-      `${BASE_URL}/admin/get-courses-for-category?courseCategory=${courseCategory}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        redirect: "follow",
-      }
-    )
+    fetch(`${BASE_URL}/admin/courses/${courseCategory}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      redirect: "follow",
+    })
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);

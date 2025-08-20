@@ -108,7 +108,7 @@ const AddIqPage = () => {
         alert("Token expired.");
         window.location.href = "/";
       }
-      const response = await fetch(`${BASE_URL}/admin/course/${route}/addIq`, {
+      const response = await fetch(`${BASE_URL}/admin/resource/${route}/iq`, {
         method: "POST",
         redirect: "follow",
         headers: {
