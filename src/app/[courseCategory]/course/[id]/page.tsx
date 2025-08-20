@@ -5,6 +5,7 @@ import CourseDetails from "@/components/course-details";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next/client";
+import { BASE_URL } from "@/lib/constants";
 
 export default function CoursePage() {
   const post = useParams();
@@ -22,7 +23,7 @@ export default function CoursePage() {
       window.location.href = "/";
     }
 
-    fetch(`https://webapi-zu6v4azneq-el.a.run.app/admin/course/${courseId}`, {
+    fetch(`${BASE_URL}/admin/course/${courseId}`, {
       redirect: "follow",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -83,20 +84,17 @@ export default function CoursePage() {
                   window.location.href = "/";
                 }
                 if (newURL) {
-                  fetch(
-                    `https://webapi-zu6v4azneq-el.a.run.app/admin/edit-course/${courseId}`,
-                    {
-                      method: "PATCH",
-                      body: JSON.stringify({
-                        image: newURL,
-                      }),
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                      },
-                      redirect: "follow",
-                    }
-                  )
+                  fetch(`${BASE_URL}/admin/edit-course/${courseId}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                      image: newURL,
+                    }),
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                    redirect: "follow",
+                  })
                     .then((res) => res.json())
                     .then((data) => {
                       console.log("update data", data);

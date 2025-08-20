@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import "tailwindcss/index.css";
 import { getCookie } from "cookies-next/client";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/lib/constants";
 
 function InstructorPage() {
   const router = useRouter();
@@ -24,7 +25,7 @@ function InstructorPage() {
   >([]);
 
   useEffect(() => {
-    fetch("https://webapi-zu6v4azneq-el.a.run.app/admin/instructors", {
+    fetch(`${BASE_URL}/admin/instructors`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -59,18 +60,15 @@ function InstructorPage() {
         alert("Token expired.");
         window.location.href = "/";
       }
-      const response = await fetch(
-        "https://webapi-zu6v4azneq-el.a.run.app/revoke-device-id",
-        {
-          // Adjust the endpoint if needed
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ rollNo: rollNo }),
-        }
-      );
+      const response = await fetch(`${BASE_URL}/revoke-device-id`, {
+        // Adjust the endpoint if needed
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rollNo: rollNo }),
+      });
 
       const data = await response.json();
 

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next/client";
+import { BASE_URL } from "@/lib/constants";
 
 export default function Page() {
   const params = usePathname();
@@ -35,7 +36,7 @@ export default function Page() {
     }
     try {
       const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${courseId}/${unitId}/addTopic`,
+        `${BASE_URL}/admin/course/${courseId}/${unitId}/addTopic`,
         {
           //IMPORTANT:  Use /api route
           method: "POST",

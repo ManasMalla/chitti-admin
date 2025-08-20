@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { BASE_URL } from "@/lib/constants";
 import "tailwindcss/index.css";
 
 export default function AddInstructorPage() {
@@ -120,23 +121,20 @@ export default function AddInstructorPage() {
         }
       }
 
-      const response = await fetch(
-        "https://webapi-zu6v4azneq-el.a.run.app/admin/instructor",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            name,
-            image: imageUrl,
-            bio,
-            gpa: parseFloat(gpa),
-            hours: parseInt(hours),
-          }),
-        }
-      );
+      const response = await fetch(`${BASE_URL}/admin/instructor`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name,
+          image: imageUrl,
+          bio,
+          gpa: parseFloat(gpa),
+          hours: parseInt(hours),
+        }),
+      });
 
       const data = await response.json();
 

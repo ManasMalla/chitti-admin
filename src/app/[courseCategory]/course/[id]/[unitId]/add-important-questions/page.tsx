@@ -12,7 +12,8 @@ import {
 } from "firebase/storage";
 import app from "@/lib/firebase";
 import { usePathname } from "next/navigation";
-import {getCookie} from "cookies-next/client";
+import { getCookie } from "cookies-next/client";
+import { BASE_URL } from "@/lib/constants";
 
 const AddIqPage = () => {
   const [file, setFile] = useState<any>(null); // State to hold the uploaded file
@@ -100,22 +101,22 @@ const AddIqPage = () => {
       setMessage("File uploaded. Adding IQ details...");
       const token = getCookie("idToken");
       const currentToken = new Date().getTime() / 1000;
-      if(token === undefined || currentToken > (JSON.parse(atob((token || "").split('.')[1]))).exp){
+      if (
+        token === undefined ||
+        currentToken > JSON.parse(atob((token || "").split(".")[1])).exp
+      ) {
         alert("Token expired.");
         window.location.href = "/";
       }
-      const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${route}/addIq`,
-        {
-          method: "POST",
-          redirect: "follow",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-          body: JSON.stringify({ url: downloadURL }), // Just the URL
-        }
-      );
+      const response = await fetch(`${BASE_URL}/admin/course/${route}/addIq`, {
+        method: "POST",
+        redirect: "follow",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ url: downloadURL }), // Just the URL
+      });
 
       const data = await response.json();
 
@@ -165,7 +166,7 @@ const AddIqPage = () => {
         </div>
         {uploadProgress > 0 && (
           <div className={styles["upload-progress"]}>
-            Upload Progress:  {uploadProgress.toFixed(2)}%
+            Upload Progress: {uploadProgress.toFixed(2)}%
           </div>
         )}
         <button

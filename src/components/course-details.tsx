@@ -8,6 +8,7 @@ import { useState } from "react";
 
 import "tailwindcss/index.css";
 import { getCookie } from "cookies-next/client";
+import { BASE_URL } from "@/lib/constants";
 
 export default function CourseDetails(props: any) {
   const courseCategory = usePathname().split("/")[1];
@@ -123,7 +124,7 @@ export default function CourseDetails(props: any) {
                           window.location.href = "/";
                         }
                         fetch(
-                          `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${props.courseId}/${unit.id}/edit-topic/${topic.id}`,
+                          `${BASE_URL}/admin/course/${props.courseId}/${unit.id}/edit-topic/${topic.id}`,
                           {
                             method: "PATCH",
                             redirect: "follow",
@@ -199,7 +200,7 @@ export default function CourseDetails(props: any) {
                         }
                         Promise.all([deleteObject(storageRef)]).then(() => {
                           fetch(
-                            `https://webapi-zu6v4azneq-el.a.run.app/admin/course/${unit.importantQuestions[0].courseId}/${unit.importantQuestions[0].unitId}/delete-iq/${unit.importantQuestions[0].iqId}`,
+                            `${BASE_URL}/admin/course/${unit.importantQuestions[0].courseId}/${unit.importantQuestions[0].unitId}/delete-iq/${unit.importantQuestions[0].iqId}`,
                             {
                               method: "DELETE",
                               redirect: "follow",

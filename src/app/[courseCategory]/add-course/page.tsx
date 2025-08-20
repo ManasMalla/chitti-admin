@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./AddCourseForm.module.css";
 import { usePathname } from "next/navigation";
 import { getCookie } from "cookies-next/client";
+import { BASE_URL } from "@/lib/constants";
 
 interface Instructor {
   _id: string;
@@ -43,15 +44,12 @@ function AddCourseForm() {
           return;
         }
 
-        const response = await fetch(
-          "https://webapi-zu6v4azneq-el.a.run.app/admin/instructors",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${BASE_URL}/admin/instructors`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (response.ok) {
           const data = await response.json();
@@ -88,25 +86,22 @@ function AddCourseForm() {
         alert("Token expired.");
         window.location.href = "/";
       }
-      const response = await fetch(
-        `https://webapi-zu6v4azneq-el.a.run.app/admin/addCourse`,
-        {
-          method: "POST",
-          redirect: "follow",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            courseId,
-            courseCategory,
-            title,
-            description,
-            image,
-            instructorId,
-          }),
-        }
-      );
+      const response = await fetch(`${BASE_URL}/admin/addCourse`, {
+        method: "POST",
+        redirect: "follow",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          courseId,
+          courseCategory,
+          title,
+          description,
+          image,
+          instructorId,
+        }),
+      });
 
       const data = await response.json();
 
