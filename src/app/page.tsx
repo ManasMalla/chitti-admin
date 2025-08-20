@@ -124,8 +124,8 @@ export default function Home() {
               </div>
             </form>
             <div className="grow" />
-            <p className="text-gray-600">
-              © 2025 <span className="font-medium text-black">theananta</span>.
+            <p className="text-gray-600 dark:text-gray-300">
+              © 2025 <span className="font-medium text-black dark:text-white">theananta</span>.
               All Rights Reserved.
             </p>
           </div>
