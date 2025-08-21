@@ -52,14 +52,14 @@ export default function AddInstructorPage() {
     }
   };
 
-  const convertFileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+  // const convertFileToBase64 = (file: File): Promise<string> => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result as string);
+  //     reader.onerror = (error) => reject(error);
+  //   });
+  // };
 
   const uploadImageToFirebase = async (file: File): Promise<string> => {
     try {
@@ -117,6 +117,7 @@ export default function AddInstructorPage() {
           setMessage("Failed to upload image. Please try again.");
           setStatus("error");
           setLoading(false);
+          console.log("Error uploading image:", error);
           return;
         }
       }
