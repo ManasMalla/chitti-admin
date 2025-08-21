@@ -23,7 +23,7 @@ function RevokeDevicePage() {
         alert("Token expired.");
         window.location.href = "/";
       }
-      const response = await fetch(`${BASE_URL}/revoke-device-id`, {
+      const response = await fetch(`${BASE_URL}/auth/revoke-device-id`, {
         // Adjust the endpoint if needed
         method: "POST",
         headers: {

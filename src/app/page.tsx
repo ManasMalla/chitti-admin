@@ -8,7 +8,7 @@ import { getAuth, signInWithCustomToken, User } from "@firebase/auth";
 import { useRouter } from "next/navigation";
 import { getCookie, setCookie } from "cookies-next/client";
 import Link from "next/link";
-import BASE_URL from "@/lib/constants";
+import {BASE_URL} from "@/lib/constants";
 // import Link from "next/link";
 
 export default function Home() {
@@ -52,7 +52,7 @@ export default function Home() {
               <div className="flex flex-row-reverse w-max p-2 px-3 border-2 border-black rounded-full items-center gap-2">
                 <h2>{user?.uid || "Loading.."}</h2>
                 <img
-                  src="https://doeresults.gitam.edu/photo/img.aspx?id=VU22CSEN0100009"
+                  src={user?.photoURL || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                   className="size-6 object-cover object-top rounded-full"
                 />
               </div>

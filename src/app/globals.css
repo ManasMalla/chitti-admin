@@ -238,6 +238,7 @@ body {
   cursor: pointer;
   color: white;
 }
+
 .reshead button:hover,
 .course-head a:hover {
   background-color: #d45e05;
@@ -385,8 +386,14 @@ a.course-block {
   }
 
   .course-head a {
-    background-color: #333;
+    color: #333;
+    background-color: white;
+  }
+
+  .course-head a:hover {
     color: white;
+    background-color: #d45e05;
+    box-shadow: 0px 0px 10px 0px #00000040;
   }
 
   .content {

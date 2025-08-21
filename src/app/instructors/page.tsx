@@ -23,6 +23,42 @@ function InstructorPage() {
       hours: number;
     }[]
   >([]);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editInstructor, setEditInstructor] = useState<any>(null);
+
+  const handleEditClick = (instructor: any) => {
+    setEditInstructor(instructor);
+    setEditModalOpen(true);
+  };
+
+  const handleEditSave = async () => {
+    if (!editInstructor) return;
+    try {
+      const response = await fetch(`${BASE_URL}/admin/instructor/${editInstructor.instructorId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getCookie("idToken")}`,
+        },
+        body: JSON.stringify(editInstructor),
+      });
+
+      if (response.ok) {
+        setMessage("Instructor updated successfully!");
+        setStatus("success");
+        setEditModalOpen(false);
+        setEditInstructor(null);
+      } else {
+        setEditModalOpen(false);
+        setMessage("Failed to update instructor.");
+        setStatus("error");
+      }
+    } catch (error) {
+      console.error("Error updating instructor:", error);
+      setMessage("Failed to update instructor. Please try again.");
+      setStatus("error");
+    }
+  };
 
   useEffect(() => {
     fetch(`${BASE_URL}/admin/instructors`, {
@@ -141,16 +177,26 @@ function InstructorPage() {
                 </div>
                 <div className="flex mt-4 gap-3 items-center">
                   <button
-                    onClick={() => {}}
-                    className="text-white font-medium py-2 px-4 rounded border border-gray-300/10  cursor-pointer focus:outline-none focus:shadow-outline"
+                    onClick={() => handleEditClick(instructor)}
                   >
-                    Edit Instructor
+                    <span className="material-symbols-outlined cursor-pointer">
+                      edit
+                    </span>
                   </button>
                   <button
-                    onClick={() => {}}
-                    className="text-white font-medium py-2 px-4 rounded bg-gray-300/10 hover:bg-[var(--primary)] cursor-pointer focus:outline-none focus:shadow-outline"
+                    onClick={() => {
+                      fetch(`${BASE_URL}/admin/instructor/${instructor.instructorId}`, {
+                        method: "DELETE",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${getCookie("idToken")}`,
+                        },
+                      });
+                    }}
                   >
-                    Remove Instructor
+                    <span className="material-symbols-outlined cursor-pointer text-red-500/80">
+                      delete
+                    </span>
                   </button>
                 </div>
               </div>
@@ -160,6 +206,83 @@ function InstructorPage() {
           <p className="text-gray-500">No instructors found.</p>
         )}
       </div>
+      {editModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-xl font-semibold mb-4">Edit Instructor</h2>
+            <form onSubmit={e => {
+              e.preventDefault();
+              handleEditSave();
+            }}>
+              <div className="mb-2">
+                <label className="block text-sm font-medium">Name</label>
+                <input
+                  type="text"
+                  value={editInstructor?.name || ""}
+                  onChange={e => setEditInstructor({ ...editInstructor, name: e.target.value })}
+                  className="w-full border rounded px-2 py-1"
+                  required
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium">Image URL</label>
+                <input
+                  type="text"
+                  value={editInstructor?.image || ""}
+                  onChange={e => setEditInstructor({ ...editInstructor, image: e.target.value })}
+                  className="w-full border rounded px-2 py-1"
+                  required
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium">Bio</label>
+                <textarea
+                  value={editInstructor?.bio || ""}
+                  onChange={e => setEditInstructor({ ...editInstructor, bio: e.target.value })}
+                  className="w-full border rounded px-2 py-1"
+                  required
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium">GPA</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={editInstructor?.gpa || ""}
+                  onChange={e => setEditInstructor({ ...editInstructor, gpa: Number(e.target.value) })}
+                  className="w-full border rounded px-2 py-1"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium">Hours</label>
+                <input
+                  type="number"
+                  value={editInstructor?.hours || ""}
+                  onChange={e => setEditInstructor({ ...editInstructor, hours: Number(e.target.value) })}
+                  className="w-full border rounded px-2 py-1"
+                  required
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setEditModalOpen(false)}
+                  className="px-4 py-2 rounded border border-black text-black cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded bg-blue-600 text-white cursor-pointer"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
