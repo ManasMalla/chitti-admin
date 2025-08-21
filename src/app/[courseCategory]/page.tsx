@@ -171,7 +171,20 @@ export default function Home() {
                       "Content-Type": "application/json",
                       Authorization: `Bearer ${getCookie("idToken")}`,
                     },
-                  });
+                  }).then((response) => {
+                    if (response.ok) {
+                      setMessage("Course deleted successfully!");
+                      setStatus("success");
+                    } else {
+                      setMessage("Failed to delete course.");
+                      setStatus("error");
+                    }
+                  })
+                    .catch((error) => {
+                      console.error("Error deleting course:", error);
+                      setMessage("Failed to delete course.");
+                      setStatus("error");
+                    });
                 }}
               >
                 <span className="material-symbols-outlined cursor-pointer text-red-500/80">

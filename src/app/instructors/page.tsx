@@ -211,7 +211,21 @@ function InstructorPage() {
                           "Content-Type": "application/json",
                           Authorization: `Bearer ${getCookie("idToken")}`,
                         },
-                      });
+                      })
+                        .then((response) => {
+                          if (response.ok) {
+                            setMessage("Instructor deleted successfully!");
+                            setStatus("success");
+                          } else {
+                            setMessage("Failed to delete instructor.");
+                            setStatus("error");
+                          }
+                        })
+                        .catch((error) => {
+                          console.error("Error deleting instructor:", error);
+                          setMessage("Failed to delete instructor.");
+                          setStatus("error");
+                        });
                     }}
                   >
                     <span className="material-symbols-outlined cursor-pointer text-red-500/80">
