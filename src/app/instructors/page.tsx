@@ -46,6 +46,29 @@ function InstructorPage() {
       if (response.ok) {
         setMessage("Instructor updated successfully!");
         setStatus("success");
+        // Refresh the instructors list
+        fetch(`${BASE_URL}/admin/instructors`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getCookie("idToken")}`,
+          },
+        })
+          .then(async (response) => {
+            if (response.ok) {
+              setInstructors(await response.json());
+            } else {
+              setMessage(
+                (await response.json()).message || "Failed to fetch instructors."
+              );
+              setStatus("error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching instructors:", error);
+            setMessage("Failed to fetch instructors. Please try again.");
+            setStatus("error");
+          });
         setEditModalOpen(false);
         setEditInstructor(null);
       } else {
@@ -127,7 +150,7 @@ function InstructorPage() {
   };
 
   return (
-    <div className="d-flex flex-col items-start p-4 ">
+    <div className="d-flex flex-col items-start p-4 h-screen overflow-scroll">
       <div className="flex justify-between items-center w-full mb-10">
         <h1 className="text-2xl font-semibold">Instructors</h1>
         <button
@@ -156,7 +179,7 @@ function InstructorPage() {
             {instructors.map((instructor) => (
               <div
                 key={instructor.instructorId}
-                className="flex flex-col max-w-md border p-6 rounded-xl border-gray-500/20 mb-2"
+                className="flex flex-col w-[45%] border p-6 rounded-xl border-gray-400 mb-2"
               >
                 <img
                   src={instructor.image}
@@ -164,9 +187,6 @@ function InstructorPage() {
                   className="size-24 rounded-full mr-2"
                 />
                 <h3 className="mt-4 font-semibold">{instructor.name}</h3>
-                <p className="text-sm text-gray-500">
-                  {instructor.instructorId}
-                </p>
                 <p className="text-sm text-gray-500 line-clamp-3">
                   {instructor.bio}
                 </p>
@@ -209,58 +229,58 @@ function InstructorPage() {
       {editModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Edit Instructor</h2>
+            <h2 className="text-xl text-black font-semibold mb-4">Edit Instructor</h2>
             <form onSubmit={e => {
               e.preventDefault();
               handleEditSave();
             }}>
               <div className="mb-2">
-                <label className="block text-sm font-medium">Name</label>
+                <label className="block text-sm text-black font-medium">Name</label>
                 <input
                   type="text"
                   value={editInstructor?.name || ""}
                   onChange={e => setEditInstructor({ ...editInstructor, name: e.target.value })}
-                  className="w-full border rounded px-2 py-1"
+                  className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
               <div className="mb-2">
-                <label className="block text-sm font-medium">Image URL</label>
+                <label className="block text-sm text-black font-medium">Image URL</label>
                 <input
                   type="text"
                   value={editInstructor?.image || ""}
                   onChange={e => setEditInstructor({ ...editInstructor, image: e.target.value })}
-                  className="w-full border rounded px-2 py-1"
+                  className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
               <div className="mb-2">
-                <label className="block text-sm font-medium">Bio</label>
+                <label className="block text-sm text-black font-medium">Bio</label>
                 <textarea
                   value={editInstructor?.bio || ""}
                   onChange={e => setEditInstructor({ ...editInstructor, bio: e.target.value })}
-                  className="w-full border rounded px-2 py-1"
+                  className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
               <div className="mb-2">
-                <label className="block text-sm font-medium">GPA</label>
+                <label className="block text-sm text-black font-medium">GPA</label>
                 <input
                   type="number"
                   step="0.01"
                   value={editInstructor?.gpa || ""}
                   onChange={e => setEditInstructor({ ...editInstructor, gpa: Number(e.target.value) })}
-                  className="w-full border rounded px-2 py-1"
+                  className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium">Hours</label>
+                <label className="block text-sm text-black font-medium">Hours</label>
                 <input
                   type="number"
                   value={editInstructor?.hours || ""}
                   onChange={e => setEditInstructor({ ...editInstructor, hours: Number(e.target.value) })}
-                  className="w-full border rounded px-2 py-1"
+                  className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
