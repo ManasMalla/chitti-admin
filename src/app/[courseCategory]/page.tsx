@@ -38,11 +38,10 @@ export default function Home() {
         setMessage("Course updated successfully!");
         setStatus("success");
         fetch(`${BASE_URL}/admin/courses/${courseCategory}`, {
-          method: "GET",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${getCookie("idToken")}`,
           },
+          redirect: "follow",
         })
           .then(async (response) => {
             if (response.ok) {

@@ -195,7 +195,7 @@ function InstructorPage() {
                     GPA: {instructor.gpa} | Hours: {instructor.hours}
                   </span>
                 </div>
-                <div className="flex mt-4 gap-3 items-center">
+                <div className="flex mt-6 gap-4 items-center">
                   <button
                     onClick={() => handleEditClick(instructor)}
                   >
