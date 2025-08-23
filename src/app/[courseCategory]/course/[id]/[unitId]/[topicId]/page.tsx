@@ -276,7 +276,7 @@ export default function Page() {
           <a href={pathname + "/add-notes"}>Add notes</a>
         </li>
       </ul>
-      <h4 className="text-lg font-medium mt-8">Cheatsheets</h4>
+      {/* <h4 className="text-lg font-medium mt-8">Cheatsheets</h4>
       <ul className="mt-4">
         {(courseData["cheatsheets"] as any).map((cheatsheet: any) => (
           <li className="list-disc ml-8 mb-2" key={cheatsheet.cheatId}>
@@ -341,7 +341,7 @@ export default function Page() {
         <li className="text-orange-500 font-medium uppercase ml-4 my-4 border-2 border-orange-500 rounded-full w-max px-4 py-2 text-sm">
           <a href={pathname + "/add-cheatsheet"}>Add cheatsheet</a>
         </li>
-      </ul>
+      </ul> */}
       {isLoading && (
         <div className="w-full left-0 h-full absolute bg-black/80 top-0 z-[100] flex items-center justify-center">
           <h1 className="text-white aspect-square h-auto flex items-center justify-center rounded-full p-8 bg-[#429EBD]">
