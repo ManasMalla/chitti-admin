@@ -54,9 +54,12 @@ export default function Page() {
       <h2 className="text-4xl mb-2">Resources</h2>
       <Link
         href={backUrl}
-        className="inline-block mb-6 py-2 px-4 bg-gray-200 text-gray-700 rounded text-sm font-medium"
+        className="w-fit flex items-center mb-6 py-2 px-4 bg-gray-200 text-gray-800 rounded text-sm font-medium"
       >
-        ← Back to Course
+        <span className="material-symbols-outlined">
+          chevron_left
+        </span>
+        Back to Course
       </Link>
 
       <h4 className="text-lg font-medium mt-8">Videos</h4>
@@ -65,14 +68,14 @@ export default function Page() {
           (
             video:
               | {
-                  videoId: string;
-                  courseId: string;
-                  unitId: string;
-                  topicId: string;
-                  url: string;
-                  thumbnail: string;
-                  name: string;
-                }
+                videoId: string;
+                courseId: string;
+                unitId: string;
+                topicId: string;
+                url: string;
+                thumbnail: string;
+                name: string;
+              }
               | any
           ) => (
             <li className="list-none ml-8 mb-2" key={video?.videoId}>
@@ -113,14 +116,13 @@ export default function Page() {
                         if (
                           token === undefined ||
                           currentToken >
-                            JSON.parse(atob((token || "").split(".")[1])).exp
+                          JSON.parse(atob((token || "").split(".")[1])).exp
                         ) {
                           alert("Token expired.");
                           window.location.href = "/";
                         }
                         fetch(
-                          `${BASE_URL}/admin/resource/${
-                            pathname.split("course/")[1]
+                          `${BASE_URL}/admin/resource/${pathname.split("course/")[1]
                           }/video/${video.videoId}`,
                           {
                             method: "DELETE",
@@ -230,15 +232,14 @@ export default function Page() {
                     if (
                       token === undefined ||
                       currentToken >
-                        JSON.parse(atob((token || "").split(".")[1])).exp
+                      JSON.parse(atob((token || "").split(".")[1])).exp
                     ) {
                       alert("Token expired.");
                       window.location.href = "/";
                     }
                     deleteObject(storageRef).then(() => {
                       fetch(
-                        `${BASE_URL}/admin/resource/${
-                          pathname.split("course/")[1]
+                        `${BASE_URL}/admin/resource/${pathname.split("course/")[1]
                         }/notes/${note.notesId}`,
                         {
                           method: "DELETE",
@@ -297,15 +298,14 @@ export default function Page() {
                     if (
                       token === undefined ||
                       currentToken >
-                        JSON.parse(atob((token || "").split(".")[1])).exp
+                      JSON.parse(atob((token || "").split(".")[1])).exp
                     ) {
                       alert("Token expired.");
                       window.location.href = "/";
                     }
                     deleteObject(storageRef).then(() => {
                       fetch(
-                        `${BASE_URL}/admin/resource/${
-                          pathname.split("course/")[1]
+                        `${BASE_URL}/admin/resource/${pathname.split("course/")[1]
                         }/cheatsheet/${cheatsheet.cheatId}`,
                         {
                           method: "DELETE",

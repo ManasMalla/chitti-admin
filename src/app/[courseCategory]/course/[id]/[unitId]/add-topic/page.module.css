@@ -1,62 +1,101 @@
 .container {
     width: 80%;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 20px;
+    margin: 20px;
+    background-color: var(--bg-primary);
+    padding: 24px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--shadow);
+    color: var(--text-primary);
+    font-family: "Poppins", sans-serif;
+    border: 1px solid var(--border-color);
   }
 
   
   .container h1 {
     text-align: center;
-    color: #333;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 24px;
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 24px;
   }
   
-  .container  .form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+  .container .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .container .form label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
   }
   
   .container .form input[type="text"],
-  .container  .form select {
+  .container .form select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Important for padding to not affect width */
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+  }
+  
+  .container .form input[type="text"]:focus,
+  .container .form select:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
   }
   
   .container button {
-    background-color: #4CAF50;
+    background-color: var(--primary);
     color: white;
-    padding: 12px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    float: right;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%;
+    margin-top: 16px;
   }
   
   .container button:hover {
-    background-color: #3e8e41;
+    background-color: var(--primary-hover, #d45e05);
+    transform: translateY(-1px);
+  }
+  
+  .container button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    transform: none;
   }
   
   .container .message {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 4px;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
   }
   
   .container .error {
-    color: red;
-    background-color: #ffebee;
-    border: 1px solid #ef9a9a;
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border: 1px solid var(--error-border);
   }
   
   .container .success {
-    color: green;
-    background-color: #e8f5e9;
-    border: 1px solid #a5d6a7;
+    background-color: var(--success-bg);
+    color: var(--success-text);
+    border: 1px solid var(--success-border);
   }

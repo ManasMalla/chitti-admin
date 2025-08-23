@@ -1,6 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next/client";
@@ -8,6 +8,7 @@ import { BASE_URL } from "@/lib/constants";
 
 export default function Page() {
   const params = usePathname();
+  const router = useRouter();
   const [topicNamePrefix, setTopicNamePrefix] = useState("");
   useEffect(() => {
     setTopicNamePrefix(window.location.hash.replace("#", ""));
@@ -62,6 +63,14 @@ export default function Page() {
         setMessage("Topic added successfully!");
         setTopicName("");
         setDifficulty(""); // Clear the form
+        
+        // Navigate back to the previous page after a short delay
+        setTimeout(() => {
+          const courseId = params.replace("/add-topic", "").split("/")[
+            params.split("/").length - 3
+          ];
+          router.push(`/${params.split("/")[1]}/course/${courseId}`);
+        }, 1500); // 1.5 second delay to show success message
       }
     } catch (error) {
       setMessageType("error");

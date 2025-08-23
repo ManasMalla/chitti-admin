@@ -107,8 +107,52 @@
 }
 
 * {
-  /* font-family: "Poppins"; */
+  font-family: "Poppins", sans-serif;
   --primary: #f26e0c;
+}
+
+/* Consistent form styling */
+input, textarea, select, button {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Dark mode variables */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9f9f9;
+  --text-primary: #000000;
+  --text-secondary: #333333;
+  --text-muted: #666666;
+  --border-color: #dddddd;
+  --border-focus: #007bff;
+  --success-bg: #d4edda;
+  --success-text: #155724;
+  --success-border: #c3e6cb;
+  --error-bg: #f8d7da;
+  --error-text: #721c24;
+  --error-border: #f5c6cb;
+  --dropdown-bg: #ffffff;
+  --dropdown-hover: #f8f9fa;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --bg-primary: #121212;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff94;
+  --text-muted: #ffffff60;
+  --border-color: #333333;
+  --border-focus: #007bff;
+  --success-bg: #1e4d2b;
+  --success-text: #d4edda;
+  --success-border: #2d5a3d;
+  --error-bg: #4d1e1e;
+  --error-text: #f8d7da;
+  --error-border: #5a2d2d;
+  --dropdown-bg: #1a1a1a;
+  --dropdown-hover: #2a2a2a;
+  --shadow: rgba(0, 0, 0, 0.3);
 }
 
 .material-symbols-outlined {
@@ -133,18 +177,25 @@ body {
   font-size: 22px;
   margin-right: auto;
   text-decoration: none;
+  font-family: "Poppins", sans-serif;
+  transition: color 0.2s ease;
+}
+
+.logo:hover {
+  color: var(--primary-hover, #d45e05) !important;
 }
 
 .sidebar {
   flex-shrink: 0;
   width: 300px;
-  background-color: rgb(255, 255, 255);
-  color: black;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   max-height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  border: solid black 1px;
+  border: solid var(--border-color) 1px;
+  font-family: "Poppins", sans-serif;
 }
 
 .navbar {
@@ -152,29 +203,34 @@ body {
   flex-direction: column;
   gap: 5px;
   width: 100%;
-  text-align: center;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
 }
 
-.navbar {
-  text-align: left;
-}
 .navbar h3 {
   margin: 20px 0 5px 0;
   font-size: 14px;
   font-weight: 600;
-  color: #00000060;
+  color: var(--text-muted);
   text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
 }
 
 .navbar a {
   text-decoration: none;
   font-size: medium;
-  color: rgb(0, 0, 0);
+  color: var(--text-primary);
   padding: 8px 0px;
   border-radius: 5px;
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family: "Poppins", sans-serif;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.navbar a:hover {
+  background-color: var(--bg-secondary);
 }
 
 .navbar a.active {
@@ -187,7 +243,7 @@ body {
 } */
 
 .addcourse {
-  background-color: rgb(240, 144, 0);
+  background-color: var(--primary);
   font-size: medium;
   color: white;
   padding: 10px;
@@ -196,13 +252,17 @@ body {
   cursor: pointer;
   text-align: center;
   margin-bottom: 10px;
+  font-family: "Poppins", sans-serif;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .addcourse:hover {
-  background-color: rgb(255, 195, 84);
-  font-weight: bold;
-  color: black;
-  box-shadow: 2px 5px 5px rgb(255, 214, 181);
+  background-color: var(--primary-hover, #d45e05);
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 4px 8px rgba(242, 110, 12, 0.3);
+  transform: translateY(-1px);
 }
 
 .content {
@@ -212,20 +272,28 @@ body {
   text-align: center;
   max-height: 100vh;
   overflow: scroll;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "Poppins", sans-serif;
 }
 
 .course-head {
-  background-color: white;
+  background-color: var(--bg-primary);
   display: flex;
   justify-content: space-between;
   z-index: 1;
   margin: 20px 20px;
   align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-family: "Poppins", sans-serif;
 }
 .course-head h3 {
-  color: black;
+  color: var(--text-secondary);
   text-align: left;
   font-weight: 600;
+  font-family: "Poppins", sans-serif;
 }
 .course-head a {
   align-items: end;
@@ -237,12 +305,15 @@ body {
   font-weight: 500;
   cursor: pointer;
   color: white;
+  font-family: "Poppins", sans-serif;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  text-decoration: none;
 }
 
 .reshead button:hover,
 .course-head a:hover {
-  background-color: #d45e05;
-  box-shadow: 0px 0px 10px 0px #00000040;
+  background-color: var(--primary-hover, #d45e05);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
 }
 .header-content {
   display: flex;
@@ -250,7 +321,8 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: black;
+  color: var(--text-primary);
+  font-family: "Poppins", sans-serif;
 }
 
 .course-section .header-content {
@@ -262,25 +334,53 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
+  position: relative;
+}
+
+.course-section .header-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.course-section .header-content > * {
+  position: relative;
+  z-index: 2;
 }
 
 .header-content h1 {
   margin-bottom: 10px;
   height: fit-content;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-primary);
 }
 
 .search-bar {
   box-sizing: border-box;
   max-width: 100%;
-  padding: 10px;
+  padding: 12px;
   max-width: 500px;
   width: 100%;
   height: fit-content;
   margin-bottom: 50px;
-  border-radius: 5px;
-  border: none;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
   cursor: pointer;
-  background: white url("/public/search.svg") left no-repeat;
+  background: var(--bg-primary) url("/public/search.svg") left no-repeat;
+  color: var(--text-primary);
+  font-family: "Poppins", sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 .courses {
@@ -320,6 +420,8 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-right: 12px;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-secondary);
 }
 
 .view-course > p {
@@ -334,20 +436,24 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-right: 12px;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-muted);
 } 
 
 .course-sidebar {
   flex-shrink: 0;
   width: 300px;
-  background-color: rgb(255, 255, 255);
-  color: black;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   max-height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  box-shadow: 10px 0 5px -2px #d5d5d5;
+  box-shadow: 10px 0 5px -2px var(--shadow);
   /* justify-content: space-between; */
   align-items: center;
+  font-family: "Poppins", sans-serif;
+  border-right: 1px solid var(--border-color);
 }
 
 /* .course-block{
@@ -355,54 +461,4 @@ body {
   text-decoration: none;
 } */
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #000;
-    color: #fff;
-  }
-  .sidebar {
-    background-color: #1a1a1a;
-    color: #fff;
-    border-color: #333;
-  }
-  .navbar {
-    color: #fff;
-  }
-  .course-head {
-    background-color: #121212;
-    color: #fff;
-  }
-  .course-head h3 {
-    color: #ffffff94;
-  }
-  .navbar a {
-    color: #fff;
-  }
-  .navbar a.active {
-    color: var(--primary);
-  }
-  .navbar h3 {
-    color: #ffffff60;
-  }
-
-  .course-head a {
-    color: #333;
-    background-color: white;
-  }
-
-  .course-head a:hover {
-    color: white;
-    background-color: #d45e05;
-    box-shadow: 0px 0px 10px 0px #00000040;
-  }
-
-  .content {
-    background-color: #121212;
-  }
-  /* .courses div {
-    border: 1px #333 solid;
-    background-color: #1a1a1a;
-    color: #fff;
-    transition: background-color 0.3s ease;
-  } */
-}
+/* All dark mode styles are now handled by CSS variables automatically */

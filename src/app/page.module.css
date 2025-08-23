@@ -13,19 +13,12 @@
   min-height: 100svh;
   padding: 80px;
   gap: 64px;
-  font-family: var(--font-geist-sans);
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  .page {
-    --gray-rgb: 255, 255, 255;
-    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-  }
-}
+/* Dark mode styles are now handled by CSS variables */
 
 .main {
   display: flex;
@@ -157,11 +150,7 @@ a.secondary {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-}
+/* Logo styling is now handled by CSS variables */
 
 .login-section {
   display: flex;
@@ -174,16 +163,18 @@ a.secondary {
   padding: 16px;
   width: 100%;
   border-radius: 12px;
-  border: 1px solid #1a1a1a;
+  border: 1px solid var(--border-color);
   font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  .login-section input {
-    padding: 16px;
-    width: 100%;
-    border-radius: 12px;
-    border: 1px solid #dadada;
-    font-size: 16px;
-  }
+.login-section input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
+
+/* Login input styling is now handled by CSS variables */

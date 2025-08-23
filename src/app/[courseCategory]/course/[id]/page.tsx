@@ -38,14 +38,17 @@ export default function CoursePage() {
           image: apiResponse.image,
           description: apiResponse.description,
           units: apiResponse.units.map((unit: any) => ({
+            unitNo: unit.unitNumber,
             id: unit.unitId,
-            name: unit.name,
+            unitName: unit.name,
             description: unit.description,
             importantQuestions: unit.importantQuestions,
+            cheatsheet: unit.cheatsheet,
+            difficulty: unit.difficulty,
             topics: unit.topic.map((topic: any) => {
               return {
                 name: topic.name,
-                id: topic.roadId,
+                id: topic.topicId,
                 difficulty: topic.difficulty,
               };
             }), // Or modify this if needed

@@ -5,19 +5,27 @@ import { useParams } from "next/navigation";
 // import styles from "./page.module.css";
 // import Link from "next/link";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
 
 export default function Home() {
   const { courseCategory } = useParams();
   const [courses, setCourses] = useState<any>([]);
+  const [instructors, setInstructors] = useState<any>([]);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<any>(null); // 'success', 'error'
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editCourse, setEditCourse] = useState<any>(null);
+  const [showInstructorDropdown, setShowInstructorDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const selectedInstructors = instructors.filter((inst: any) =>
+    (editCourse?.instructorId || []).includes(inst.instructorId)
+  );
 
   function editCourseForm(course: any) {
+    console.log(course);
     setEditCourse(course);
     setEditModalOpen(true);
   }
@@ -95,10 +103,36 @@ export default function Home() {
         console.log(data);
       })
       .catch((error) => console.error("Error fetching data:", error));
+    fetch(`${BASE_URL}/admin/instructors`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      redirect: "follow",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setInstructors(data);
+        console.log(data);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   }, [courseCategory]);
+
+  // Handle clicking outside dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowInstructorDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   // function addResource() {
 
-  // }
   return (
     <div className="content">
       <div className="course-head">
@@ -110,11 +144,12 @@ export default function Home() {
         </div>
         <a
           href={"/" + courseCategory + "/add-course"}
-          style={{
-            textDecoration: "none",
-          }}
+         className="decoration-none flex items-center gap-2"
         >
-          Add Courses +
+          <span className="material-symbols-outlined">
+            add
+          </span>
+          Add Courses
         </a>
       </div>
       {status === "success" && (
@@ -195,7 +230,7 @@ export default function Home() {
         ))}
       </div>
       {editModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 overflow-y-auto">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <h2 className="text-xl text-black font-semibold mb-4">Edit Course</h2>
             <form
@@ -214,6 +249,24 @@ export default function Home() {
                   onChange={e => setEditCourse({ ...editCourse, newCourseId: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black"
                 />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-black">
+                  Course Category
+                </label>
+                <select
+                  value={editCourse?.courseCategory || ""}
+                  onChange={e => setEditCourse({ ...editCourse, courseCategory: e.target.value })}
+                  className="w-full border border-gray-300 rounded-md p-2 text-black cursor-pointer"
+                >
+                  <option value="">Select a category</option>
+                  <option value="university-core">University Core</option>
+                  <option value="faculty-core">Faculty Core</option>
+                  <option value="program-core">Program Core</option>
+                  <option value="program-elective">Program Elective</option>
+                  <option value="open-elective">Open Elective</option>
+                  <option value="management-basket">Management Basket</option>
+                </select>
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-black">
@@ -246,6 +299,68 @@ export default function Home() {
                   onChange={e => setEditCourse({ ...editCourse, image: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black"
                 />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-black">
+                  Instructors
+                </label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {selectedInstructors.length > 0 ? (
+                    selectedInstructors.map((inst: any) => (
+                      <span
+                        key={inst.instructorId}
+                        className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs"
+                      >
+                        {inst.name}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-gray-400 text-xs">No instructors selected</span>
+                  )}
+                </div>
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    type="button"
+                    className="flex items-center justify-between w-full border border-gray-300 rounded-md p-2 text-black text-left bg-white cursor-pointer"
+                    onClick={() => setShowInstructorDropdown((prev) => !prev)}
+                  >
+                    Select Instructors
+                    <span className="material-symbols-outlined">
+                      arrow_drop_down
+                    </span>
+                  </button>
+                  {showInstructorDropdown && (
+                    <div className="absolute z-10 bg-white border border-gray-300 rounded-md mt-1 w-full max-h-48 overflow-auto shadow-lg">
+                      {instructors.map((instructor: any) => (
+                        <label
+                          key={instructor.instructorId}
+                          className="flex items-center px-2 py-1 cursor-pointer hover:bg-gray-100 text-black"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={(editCourse?.instructorId || []).includes(instructor.instructorId)}
+                            onChange={e => {
+                              const selected = editCourse?.instructorId || [];
+                              if (e.target.checked) {
+                                setEditCourse({
+                                  ...editCourse,
+                                  instructorId: [...selected, instructor.instructorId],
+                                });
+                              } else {
+                                setEditCourse({
+                                  ...editCourse,
+                                  instructorId: selected.filter((id: string) => id !== instructor.instructorId),
+                                });
+                              }
+                            }}
+                            className="mr-2"
+                          />
+                          {instructor.name}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex justify-end gap-2">
                 <button

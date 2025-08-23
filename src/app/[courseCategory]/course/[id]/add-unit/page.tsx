@@ -2,12 +2,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./AddUnitForm.module.css";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
 
 export default function Page() {
   const courseId = usePathname().split("/")[3];
+  const courseCategory = usePathname().split("/")[1];
+  const router = useRouter();
   const [unitNo, setUnitNo] = useState<any>("");
   const [unitName, setUnitName] = useState<any>(undefined);
   const [description, setDescription] = useState<any>(undefined);
@@ -58,6 +60,11 @@ export default function Page() {
         setUnitName("");
         setDescription("");
         setDifficulty("");
+        
+        // Navigate back to the previous page after a short delay
+        setTimeout(() => {
+          router.push(`/${courseCategory}/course/${courseId}`);
+        }, 1500);
       } else {
         setMessage(data.message || "An error occurred.");
         setStatus("error");

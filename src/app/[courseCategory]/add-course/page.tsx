@@ -1,13 +1,13 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./AddCourseForm.module.css";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
 
 interface Instructor {
-  _id: string;
+  instructorId: string;
   name: string;
   bio: string;
   image: string;
@@ -18,14 +18,35 @@ interface Instructor {
 function AddCourseForm() {
   const [courseId, setCourseId] = useState("");
   const courseCategory = usePathname().split("/")[1]; // Extracting courseCategory from the URL
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  const [instructorId, setInstructorId] = useState("");
+  const [instructorId, setInstructorId] = useState<string[]>([]);
   const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loadingInstructors, setLoadingInstructors] = useState(false);
+  const [showInstructorDropdown, setShowInstructorDropdown] = useState(false);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<any>(null); // null, 'success', 'error'
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const selectedInstructors = instructors.filter((inst: Instructor) =>
+    instructorId.includes(inst.instructorId)
+  );
+
+  // Handle clicking outside dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowInstructorDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Fetch instructors on component mount
   useEffect(() => {
@@ -56,6 +77,7 @@ function AddCourseForm() {
           setInstructors(data || []);
 
           console.log("Response status:", response.status);
+          console.log("Instructors data:", data);
         } else {
           console.error("Failed to fetch instructors");
           setMessage("Failed to load instructors");
@@ -113,7 +135,12 @@ function AddCourseForm() {
         setTitle("");
         setDescription("");
         setImage("");
-        setInstructorId("");
+        setInstructorId([]);
+        
+        // Navigate back to the course category page after a short delay
+        setTimeout(() => {
+          router.push(`/${courseCategory}`);
+        }, 1500);
       } else {
         setMessage(data.message || "An error occurred.");
         setStatus("error");
@@ -170,26 +197,59 @@ function AddCourseForm() {
           required
         />
 
-        <label htmlFor="instructor">Instructor:</label>
-        <select
-          id="instructor"
-          value={instructorId}
-          onChange={(e) => setInstructorId(e.target.value)}
-          required
-          disabled={loadingInstructors}
-        >
-          <option value="">
+        <label htmlFor="instructor">Instructors:</label>
+        <div className={styles.selectedTags}>
+          {selectedInstructors.length > 0 ? (
+            selectedInstructors.map((inst) => (
+              <span
+                key={inst.instructorId}
+                className={styles.selectedTag}
+              >
+                {inst.name}
+              </span>
+            ))
+          ) : (
+            <span className={styles.noSelection}>No instructors selected</span>
+          )}
+        </div>
+        <div className="relative" ref={dropdownRef}>
+          <button
+            type="button"
+            className={styles.dropdownButton}
+            onClick={() => setShowInstructorDropdown((prev) => !prev)}
+            disabled={loadingInstructors}
+          >
             {loadingInstructors
               ? "Loading instructors..."
-              : "Select an instructor"}
-          </option>
-          {instructors.map((instructor) => (
-            <option key={instructor._id} value={instructor._id}>
-              {instructor.name} (GPA: {instructor.gpa}, Hours:{" "}
-              {instructor.hours})
-            </option>
-          ))}
-        </select>
+              : "Select Instructors"}
+            <span className="material-symbols-outlined">
+              arrow_drop_down
+            </span>
+          </button>
+          {showInstructorDropdown && (
+            <div className={styles.dropdownMenu}>
+              {instructors.map((instructor) => (
+                <label
+                  key={instructor.instructorId}
+                  className={styles.dropdownItem}
+                >
+                  <input
+                    type="checkbox"
+                    checked={instructorId.includes(instructor.instructorId)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setInstructorId([...instructorId, instructor.instructorId]);
+                      } else {
+                        setInstructorId(instructorId.filter((id) => id !== instructor.instructorId));
+                      }
+                    }}
+                  />
+                  {instructor.name} (GPA: {instructor.gpa}, Hours: {instructor.hours})
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
 
         <button type="submit" disabled={loadingInstructors}>
           Add Course
