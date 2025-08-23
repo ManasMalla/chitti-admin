@@ -14,6 +14,7 @@ import app from "@/lib/firebase";
 import { usePathname } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
+import { BackButton } from "@/components/BackButton";
 
 const AddIqPage = () => {
   const [file, setFile] = useState<any>(null); // State to hold the uploaded file
@@ -143,7 +144,10 @@ const AddIqPage = () => {
 
   return (
     <div className={styles["add-iq-container"]}>
-      <h1>Add Important Question</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Add Important Question</h1>
+        <BackButton href={pathname.replace("/add-important-questions", "")} />
+      </div>
       {message && (
         <div
           className={`${styles["message"]} ${

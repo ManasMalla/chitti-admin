@@ -179,7 +179,7 @@ export default function CourseDetails(props: any) {
           <span className="material-symbols-outlined">
             chevron_left
           </span>
-          Back to Category
+          Back to {courseCategory.split("-").join(" ").charAt(0).toUpperCase() + courseCategory.split("-").join(" ").slice(1)}
         </Link>
         <h2 className="text-3xl font-medium py-4">Course Description</h2>
         <p className="max-w-[48ch]">{props.description}</p>

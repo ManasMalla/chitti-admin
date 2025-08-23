@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
+import { BackButton } from "@/components/BackButton";
 
 export default function Page() {
   const params = usePathname();
@@ -80,16 +81,21 @@ export default function Page() {
 
   return (
     <div className={styles["container"]}>
-      <h4>
-        {params
-          .replace("/add-topic", "")
-          .split("/")
-          .pop()
-          ?.split("-")
-          .join(" ")
-          .toUpperCase()}
-      </h4>
-      <h2>Add Topic</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <div>
+          <h4>
+            {params
+              .replace("/add-topic", "")
+              .split("/")
+              .pop()
+              ?.split("-")
+              .join(" ")
+              .toUpperCase()}
+          </h4>
+          <h2>Add Topic</h2>
+        </div>
+        <BackButton href={`/${params.split("/")[1]}/course/${params.replace("/add-topic", "").split("/")[params.split("/").length - 3]}`} />
+      </div>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label htmlFor="topicName">Topic Name:</label>
         <input

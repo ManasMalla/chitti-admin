@@ -16,6 +16,7 @@ import { useParams, usePathname } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { headers } from "next/headers";
 import { BASE_URL } from "@/lib/constants";
+import { BackButton } from "@/components/BackButton";
 
 const EditNotesPage = () => {
   const [name, setName] = useState("");
@@ -208,7 +209,10 @@ const EditNotesPage = () => {
 
   return (
     <div className={styles["add-notes-container"]}>
-      <h1>Edit Note</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Edit Note</h1>
+        <BackButton href={pathname.split("/edit-notes")[0]} />
+      </div>
       {message && (
         <div
           className={`${styles["message"]} ${

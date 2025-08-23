@@ -6,6 +6,7 @@ import { storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { BASE_URL } from "@/lib/constants";
 import "tailwindcss/index.css";
+import { BackButton } from "@/components/BackButton";
 
 export default function AddInstructorPage() {
   const [name, setName] = useState("");
@@ -161,12 +162,17 @@ export default function AddInstructorPage() {
   return (
     <div className="max-w-2xl mx-auto p-6 min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-          Add New Instructor
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300">
-          Fill in the details below to add a new instructor
-        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+              Add New Instructor
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300">
+              Fill in the details below to add a new instructor
+            </p>
+          </div>
+          <BackButton href="/instructors" />
+        </div>
       </div>
 
       {status === "success" && (

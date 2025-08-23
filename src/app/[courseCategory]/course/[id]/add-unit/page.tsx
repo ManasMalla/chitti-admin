@@ -5,6 +5,7 @@ import styles from "./AddUnitForm.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
+import { BackButton } from "@/components/BackButton";
 
 export default function Page() {
   const courseId = usePathname().split("/")[3];
@@ -78,7 +79,10 @@ export default function Page() {
 
   return (
     <div className={styles.container}>
-      <h1>Add New Unit</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Add New Unit</h1>
+        <BackButton href={`/${courseCategory}/course/${courseId}`} />
+      </div>
       {status === "success" && (
         <div className={styles.successMessage}>{message}</div>
       )}

@@ -13,6 +13,7 @@ import app from "@/lib/firebase";
 import { usePathname } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
+import { BackButton } from "@/components/BackButton";
 
 const AddCheatsheetPage = () => {
   const [name, setName] = useState("");
@@ -133,7 +134,10 @@ const AddCheatsheetPage = () => {
 
   return (
     <div className={styles["add-cheatsheet-container"]}>
-      <h1>Add Cheatsheet</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Add Cheatsheet</h1>
+        <BackButton href={pathname.replace("/add-cheatsheet", "")} />
+      </div>
       {message && (
         <div
           className={`${styles["message"]} ${

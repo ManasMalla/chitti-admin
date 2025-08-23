@@ -15,6 +15,7 @@ import app from "@/lib/firebase";
 import { useParams, usePathname } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
+import { BackButton } from "@/components/BackButton";
 
 const EditVideoPage = () => {
   const [name, setName] = useState("");
@@ -237,7 +238,10 @@ const EditVideoPage = () => {
 
   return (
     <div className={styles["add-video-container"]}>
-      <h1>Edit Video</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Edit Video</h1>
+        <BackButton href={pathname.split("/edit-video")[0]} />
+      </div>
       {message && (
         <div
           className={`${styles["message"]} ${

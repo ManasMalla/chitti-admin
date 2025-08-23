@@ -5,6 +5,7 @@ import styles from "./AddCourseForm.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
+import { BackButton } from "@/components/BackButton";
 
 interface Instructor {
   instructorId: string;
@@ -154,7 +155,10 @@ function AddCourseForm() {
 
   return (
     <div className={styles.container}>
-      <h1>Add New Course</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Add New Course</h1>
+        <BackButton href={`/${courseCategory}`} />
+      </div>
       {status === "success" && (
         <div className={styles.successMessage}>{message}</div>
       )}
