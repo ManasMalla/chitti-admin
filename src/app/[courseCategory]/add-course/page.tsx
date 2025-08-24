@@ -1,5 +1,5 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./AddCourseForm.module.css";
@@ -166,6 +166,7 @@ function AddCourseForm() {
         } catch (error) {
           setMessage("Failed to upload image. Please try again.");
           setStatus("error");
+          console.log(error);
           return;
         }
       }
