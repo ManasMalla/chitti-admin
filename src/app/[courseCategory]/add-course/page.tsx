@@ -183,7 +183,7 @@ function AddCourseForm() {
           title,
           description,
           image: imageUrl,
-          instructorId,
+          instructorIds: instructorId,
         }),
       });
 
