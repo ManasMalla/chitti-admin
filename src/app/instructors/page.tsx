@@ -34,14 +34,17 @@ function InstructorPage() {
   const handleEditSave = async () => {
     if (!editInstructor) return;
     try {
-      const response = await fetch(`${BASE_URL}/admin/instructor/${editInstructor.instructorId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getCookie("idToken")}`,
-        },
-        body: JSON.stringify(editInstructor),
-      });
+      const response = await fetch(
+        `${BASE_URL}/admin/instructor/${editInstructor.instructorId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getCookie("idToken")}`,
+          },
+          body: JSON.stringify(editInstructor),
+        }
+      );
 
       if (response.ok) {
         setMessage("Instructor updated successfully!");
@@ -59,7 +62,8 @@ function InstructorPage() {
               setInstructors(await response.json());
             } else {
               setMessage(
-                (await response.json()).message || "Failed to fetch instructors."
+                (await response.json()).message ||
+                  "Failed to fetch instructors."
               );
               setStatus("error");
             }
@@ -184,7 +188,7 @@ function InstructorPage() {
                 <img
                   src={instructor.image}
                   alt={instructor.name}
-                  className="size-24 rounded-full mr-2"
+                  className="size-24 rounded-full mr-2 object-cover"
                 />
                 <h3 className="mt-4 font-semibold">{instructor.name}</h3>
                 <p className="text-sm text-gray-500 line-clamp-3">
@@ -196,22 +200,23 @@ function InstructorPage() {
                   </span>
                 </div>
                 <div className="flex mt-6 gap-4 items-center">
-                  <button
-                    onClick={() => handleEditClick(instructor)}
-                  >
+                  <button onClick={() => handleEditClick(instructor)}>
                     <span className="material-symbols-outlined cursor-pointer">
                       edit
                     </span>
                   </button>
                   <button
                     onClick={() => {
-                      fetch(`${BASE_URL}/admin/instructor/${instructor.instructorId}`, {
-                        method: "DELETE",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Bearer ${getCookie("idToken")}`,
-                        },
-                      })
+                      fetch(
+                        `${BASE_URL}/admin/instructor/${instructor.instructorId}`,
+                        {
+                          method: "DELETE",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${getCookie("idToken")}`,
+                          },
+                        }
+                      )
                         .then((response) => {
                           if (response.ok) {
                             setMessage("Instructor deleted successfully!");
@@ -243,57 +248,96 @@ function InstructorPage() {
       {editModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h2 className="text-xl text-black font-semibold mb-4">Edit Instructor</h2>
-            <form onSubmit={e => {
-              e.preventDefault();
-              handleEditSave();
-            }}>
+            <h2 className="text-xl text-black font-semibold mb-4">
+              Edit Instructor
+            </h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleEditSave();
+              }}
+            >
               <div className="mb-2">
-                <label className="block text-sm text-black font-medium">Name</label>
+                <label className="block text-sm text-black font-medium">
+                  Name
+                </label>
                 <input
                   type="text"
                   value={editInstructor?.name || ""}
-                  onChange={e => setEditInstructor({ ...editInstructor, name: e.target.value })}
+                  onChange={(e) =>
+                    setEditInstructor({
+                      ...editInstructor,
+                      name: e.target.value,
+                    })
+                  }
                   className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
               <div className="mb-2">
-                <label className="block text-sm text-black font-medium">Image URL</label>
+                <label className="block text-sm text-black font-medium">
+                  Image URL
+                </label>
                 <input
                   type="text"
                   value={editInstructor?.image || ""}
-                  onChange={e => setEditInstructor({ ...editInstructor, image: e.target.value })}
+                  onChange={(e) =>
+                    setEditInstructor({
+                      ...editInstructor,
+                      image: e.target.value,
+                    })
+                  }
                   className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
               <div className="mb-2">
-                <label className="block text-sm text-black font-medium">Bio</label>
+                <label className="block text-sm text-black font-medium">
+                  Bio
+                </label>
                 <textarea
                   value={editInstructor?.bio || ""}
-                  onChange={e => setEditInstructor({ ...editInstructor, bio: e.target.value })}
+                  onChange={(e) =>
+                    setEditInstructor({
+                      ...editInstructor,
+                      bio: e.target.value,
+                    })
+                  }
                   className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
               <div className="mb-2">
-                <label className="block text-sm text-black font-medium">GPA</label>
+                <label className="block text-sm text-black font-medium">
+                  GPA
+                </label>
                 <input
                   type="number"
                   step="0.01"
                   value={editInstructor?.gpa || ""}
-                  onChange={e => setEditInstructor({ ...editInstructor, gpa: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setEditInstructor({
+                      ...editInstructor,
+                      gpa: Number(e.target.value),
+                    })
+                  }
                   className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm text-black font-medium">Hours</label>
+                <label className="block text-sm text-black font-medium">
+                  Hours
+                </label>
                 <input
                   type="number"
                   value={editInstructor?.hours || ""}
-                  onChange={e => setEditInstructor({ ...editInstructor, hours: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setEditInstructor({
+                      ...editInstructor,
+                      hours: Number(e.target.value),
+                    })
+                  }
                   className="w-full border rounded px-2 py-1 text-black border-gray-400"
                   required
                 />
