@@ -6,6 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
 import { BackButton } from "@/components/BackButton";
+import { storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface Instructor {
   instructorId: string;
@@ -23,6 +25,10 @@ function AddCourseForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState("");
+  const [uploadMethod, setUploadMethod] = useState<"file" | "url">("file");
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [instructorId, setInstructorId] = useState<string[]>([]);
   const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loadingInstructors, setLoadingInstructors] = useState(false);
@@ -38,14 +44,17 @@ function AddCourseForm() {
   // Handle clicking outside dropdown to close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowInstructorDropdown(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -96,9 +105,49 @@ function AddCourseForm() {
     fetchInstructors();
   }, []);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        setMessage("Please select a valid image file");
+        setStatus("error");
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setMessage("Image size should be less than 5MB");
+        setStatus("error");
+        return;
+      }
+      setImageFile(file);
+      setStatus(null);
+      setMessage("");
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadImageToFirebase = async (file: File): Promise<string> => {
+    try {
+      setUploadingImage(true);
+      const timestamp = Date.now();
+      const fileName = `courses/${timestamp}_${file.name}`;
+      const imageRef = ref(storage, fileName);
+      const snapshot = await uploadBytes(imageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      return downloadURL;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw new Error("Failed to upload image");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
     try {
       const token = getCookie("idToken");
       const currentToken = new Date().getTime() / 1000;
@@ -108,6 +157,16 @@ function AddCourseForm() {
       ) {
         alert("Token expired.");
         window.location.href = "/";
+      }
+      let imageUrl = image;
+      if (uploadMethod === "file" && imageFile) {
+        try {
+          imageUrl = await uploadImageToFirebase(imageFile);
+        } catch (error) {
+          setMessage("Failed to upload image. Please try again.");
+          setStatus("error");
+          return;
+        }
       }
       const response = await fetch(`${BASE_URL}/admin/course`, {
         method: "POST",
@@ -121,7 +180,7 @@ function AddCourseForm() {
           courseCategory,
           title,
           description,
-          image,
+          image: imageUrl,
           instructorId,
         }),
       });
@@ -137,7 +196,10 @@ function AddCourseForm() {
         setDescription("");
         setImage("");
         setInstructorId([]);
-        
+        setImageFile(null);
+        setImagePreview("");
+        setUploadMethod("file");
+
         // Navigate back to the course category page after a short delay
         setTimeout(() => {
           router.push(`/${courseCategory}`);
@@ -154,8 +216,15 @@ function AddCourseForm() {
   };
 
   return (
-    <div className={styles.container}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+    <div className={`${styles.container} h-screen overflow-auto w-full !p-24`}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+        }}
+      >
         <h1>Add New Course</h1>
         <BackButton href={`/${courseCategory}`} />
       </div>
@@ -192,23 +261,88 @@ function AddCourseForm() {
           required
         />
 
-        <label htmlFor="image">Image URL:</label>
-        <input
-          type="url"
-          id="image"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          required
-        />
+        <label>Course Cover Image:</label>
+        <div style={{ marginBottom: "1rem" }}>
+          <div style={{ display: "flex", gap: "1rem", marginBottom: "0.5rem" }}>
+            <label>
+              <input
+                type="radio"
+                name="uploadMethod"
+                value="file"
+                checked={uploadMethod === "file"}
+                onChange={() => setUploadMethod("file")}
+              />{" "}
+              Upload File
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="uploadMethod"
+                value="url"
+                checked={uploadMethod === "url"}
+                onChange={() => setUploadMethod("url")}
+              />{" "}
+              Image URL
+            </label>
+          </div>
+          {uploadMethod === "file" ? (
+            <div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                required={uploadMethod === "file"}
+                disabled={uploadingImage}
+                style={{ marginBottom: "0.5rem" }}
+              />
+              {uploadingImage && (
+                <div
+                  style={{
+                    color: "#2563eb",
+                    fontSize: "0.9rem",
+                    marginBottom: "0.5rem",
+                  }}
+                >
+                  Uploading image...
+                </div>
+              )}
+              {imagePreview && (
+                <div style={{ marginBottom: "0.5rem" }}>
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      border: "1px solid #e5e7eb",
+                    }}
+                  />
+                </div>
+              )}
+              <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>
+                Supported formats: JPG, PNG, GIF. Max size: 5MB
+              </div>
+            </div>
+          ) : (
+            <input
+              type="url"
+              id="image"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              required={uploadMethod === "url"}
+              style={{ marginBottom: "0.5rem" }}
+              placeholder="https://example.com/image.jpg"
+            />
+          )}
+        </div>
 
         <label htmlFor="instructor">Instructors:</label>
         <div className={styles.selectedTags}>
           {selectedInstructors.length > 0 ? (
             selectedInstructors.map((inst) => (
-              <span
-                key={inst.instructorId}
-                className={styles.selectedTag}
-              >
+              <span key={inst.instructorId} className={styles.selectedTag}>
                 {inst.name}
               </span>
             ))
@@ -226,9 +360,7 @@ function AddCourseForm() {
             {loadingInstructors
               ? "Loading instructors..."
               : "Select Instructors"}
-            <span className="material-symbols-outlined">
-              arrow_drop_down
-            </span>
+            <span className="material-symbols-outlined">arrow_drop_down</span>
           </button>
           {showInstructorDropdown && (
             <div className={styles.dropdownMenu}>
@@ -242,21 +374,29 @@ function AddCourseForm() {
                     checked={instructorId.includes(instructor.instructorId)}
                     onChange={(e) => {
                       if (e.target.checked) {
-                        setInstructorId([...instructorId, instructor.instructorId]);
+                        setInstructorId([
+                          ...instructorId,
+                          instructor.instructorId,
+                        ]);
                       } else {
-                        setInstructorId(instructorId.filter((id) => id !== instructor.instructorId));
+                        setInstructorId(
+                          instructorId.filter(
+                            (id) => id !== instructor.instructorId
+                          )
+                        );
                       }
                     }}
                   />
-                  {instructor.name} (GPA: {instructor.gpa}, Hours: {instructor.hours})
+                  {instructor.name} (GPA: {instructor.gpa}, Hours:{" "}
+                  {instructor.hours})
                 </label>
               ))}
             </div>
           )}
         </div>
 
-        <button type="submit" disabled={loadingInstructors}>
-          Add Course
+        <button type="submit" disabled={loadingInstructors || uploadingImage}>
+          {uploadingImage ? "Uploading Image..." : "Add Course"}
         </button>
       </form>
     </div>
