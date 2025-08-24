@@ -90,6 +90,7 @@ export default function Home() {
         } catch (error) {
           setMessage("Failed to upload image. Please try again.");
           setStatus("error");
+          console.log(error);
           return;
         }
       }
