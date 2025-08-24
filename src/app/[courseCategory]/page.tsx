@@ -8,6 +8,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { getCookie } from "cookies-next/client";
 import { BASE_URL } from "@/lib/constants";
+import { storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function Home() {
   const { courseCategory } = useParams();
@@ -20,6 +22,13 @@ export default function Home() {
   const [showInstructorDropdown, setShowInstructorDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const [editImageFile, setEditImageFile] = useState<File | null>(null);
+  const [editImagePreview, setEditImagePreview] = useState("");
+  const [editUploadMethod, setEditUploadMethod] = useState<"file" | "url">(
+    "url"
+  );
+  const [uploadingEditImage, setUploadingEditImage] = useState(false);
+
   const selectedInstructors = instructors.filter((inst: any) =>
     (editCourse?.instructorId || []).includes(inst.instructorId)
   );
@@ -30,17 +39,71 @@ export default function Home() {
     setEditModalOpen(true);
   }
 
+  const handleEditFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        setMessage("Please select a valid image file");
+        setStatus("error");
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setMessage("Image size should be less than 5MB");
+        setStatus("error");
+        return;
+      }
+      setEditImageFile(file);
+      setStatus(null);
+      setMessage("");
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setEditImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadEditImageToFirebase = async (file: File): Promise<string> => {
+    try {
+      setUploadingEditImage(true);
+      const timestamp = Date.now();
+      const fileName = `courses/${timestamp}_${file.name}`;
+      const imageRef = ref(storage, fileName);
+      const snapshot = await uploadBytes(imageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      return downloadURL;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw new Error("Failed to upload image");
+    } finally {
+      setUploadingEditImage(false);
+    }
+  };
+
   const handleEditSave = async () => {
     if (!editCourse) return;
     try {
-      const response = await fetch(`${BASE_URL}/admin/course/${editCourse.courseId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getCookie("idToken")}`,
-        },
-        body: JSON.stringify(editCourse),
-      });
+      let imageUrl = editCourse.image;
+      if (editUploadMethod === "file" && editImageFile) {
+        try {
+          imageUrl = await uploadEditImageToFirebase(editImageFile);
+        } catch (error) {
+          setMessage("Failed to upload image. Please try again.");
+          setStatus("error");
+          return;
+        }
+      }
+      const response = await fetch(
+        `${BASE_URL}/admin/course/${editCourse.courseId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getCookie("idToken")}`,
+          },
+          body: JSON.stringify({ ...editCourse, image: imageUrl }),
+        }
+      );
 
       if (response.ok) {
         setMessage("Course updated successfully!");
@@ -120,14 +183,17 @@ export default function Home() {
   // Handle clicking outside dropdown to close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowInstructorDropdown(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -144,11 +210,9 @@ export default function Home() {
         </div>
         <a
           href={"/" + courseCategory + "/add-course"}
-         className="decoration-none flex items-center gap-2"
+          className="decoration-none flex items-center gap-2"
         >
-          <span className="material-symbols-outlined">
-            add
-          </span>
+          <span className="material-symbols-outlined">add</span>
           Add Courses
         </a>
       </div>
@@ -205,15 +269,16 @@ export default function Home() {
                       "Content-Type": "application/json",
                       Authorization: `Bearer ${getCookie("idToken")}`,
                     },
-                  }).then((response) => {
-                    if (response.ok) {
-                      setMessage("Course deleted successfully!");
-                      setStatus("success");
-                    } else {
-                      setMessage("Failed to delete course.");
-                      setStatus("error");
-                    }
                   })
+                    .then((response) => {
+                      if (response.ok) {
+                        setMessage("Course deleted successfully!");
+                        setStatus("success");
+                      } else {
+                        setMessage("Failed to delete course.");
+                        setStatus("error");
+                      }
+                    })
                     .catch((error) => {
                       console.error("Error deleting course:", error);
                       setMessage("Failed to delete course.");
@@ -232,13 +297,16 @@ export default function Home() {
       {editModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 overflow-y-auto">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h2 className="text-xl text-black font-semibold mb-4">Edit Course</h2>
+            <h2 className="text-xl text-black font-semibold mb-4">
+              Edit Course
+            </h2>
             <form
               className="text-start"
-              onSubmit={e => {
+              onSubmit={(e) => {
                 e.preventDefault();
                 handleEditSave();
-              }}>
+              }}
+            >
               <div className="mb-4">
                 <label className="block text-sm font-medium text-black">
                   Course ID
@@ -246,7 +314,12 @@ export default function Home() {
                 <input
                   type="text"
                   value={editCourse?.newCourseId || ""}
-                  onChange={e => setEditCourse({ ...editCourse, newCourseId: e.target.value })}
+                  onChange={(e) =>
+                    setEditCourse({
+                      ...editCourse,
+                      newCourseId: e.target.value,
+                    })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black"
                 />
               </div>
@@ -256,7 +329,12 @@ export default function Home() {
                 </label>
                 <select
                   value={editCourse?.courseCategory || ""}
-                  onChange={e => setEditCourse({ ...editCourse, courseCategory: e.target.value })}
+                  onChange={(e) =>
+                    setEditCourse({
+                      ...editCourse,
+                      courseCategory: e.target.value,
+                    })
+                  }
                   className="w-full border border-gray-300 rounded-md p-2 text-black cursor-pointer"
                 >
                   <option value="">Select a category</option>
@@ -275,7 +353,9 @@ export default function Home() {
                 <input
                   type="text"
                   value={editCourse?.title || ""}
-                  onChange={e => setEditCourse({ ...editCourse, title: e.target.value })}
+                  onChange={(e) =>
+                    setEditCourse({ ...editCourse, title: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black"
                 />
               </div>
@@ -285,20 +365,91 @@ export default function Home() {
                 </label>
                 <textarea
                   value={editCourse?.description || ""}
-                  onChange={e => setEditCourse({ ...editCourse, description: e.target.value })}
+                  onChange={(e) =>
+                    setEditCourse({
+                      ...editCourse,
+                      description: e.target.value,
+                    })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black"
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-black">
-                  Course Image URL
+                  Course Cover Image
                 </label>
-                <input
-                  type="text"
-                  value={editCourse?.image || ""}
-                  onChange={e => setEditCourse({ ...editCourse, image: e.target.value })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black"
-                />
+                <div className="flex gap-4 mb-2">
+                  <label>
+                    <input
+                      type="radio"
+                      name="editUploadMethod"
+                      className="text-black"
+                      value="file"
+                      checked={editUploadMethod === "file"}
+                      onChange={() => setEditUploadMethod("file")}
+                    />{" "}
+                    Upload File
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="editUploadMethod"
+                      value="url"
+                      checked={editUploadMethod === "url"}
+                      onChange={() => setEditUploadMethod("url")}
+                    />{" "}
+                    Image URL
+                  </label>
+                </div>
+                {editUploadMethod === "file" ? (
+                  <div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleEditFileChange}
+                      disabled={uploadingEditImage}
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                    {uploadingEditImage && (
+                      <div
+                        style={{
+                          color: "#2563eb",
+                          fontSize: "0.9rem",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        Uploading image...
+                      </div>
+                    )}
+                    {editImagePreview && (
+                      <div style={{ marginBottom: "0.5rem" }}>
+                        <img
+                          src={editImagePreview}
+                          alt="Preview"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            objectFit: "cover",
+                            borderRadius: "8px",
+                            border: "1px solid #e5e7eb",
+                          }}
+                        />
+                      </div>
+                    )}
+                    <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>
+                      Supported formats: JPG, PNG, GIF. Max size: 5MB
+                    </div>
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    value={editCourse?.image || ""}
+                    onChange={(e) =>
+                      setEditCourse({ ...editCourse, image: e.target.value })
+                    }
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black"
+                  />
+                )}
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-black">
@@ -315,7 +466,9 @@ export default function Home() {
                       </span>
                     ))
                   ) : (
-                    <span className="text-gray-400 text-xs">No instructors selected</span>
+                    <span className="text-gray-400 text-xs">
+                      No instructors selected
+                    </span>
                   )}
                 </div>
                 <div className="relative" ref={dropdownRef}>
@@ -338,18 +491,26 @@ export default function Home() {
                         >
                           <input
                             type="checkbox"
-                            checked={(editCourse?.instructorId || []).includes(instructor.instructorId)}
-                            onChange={e => {
+                            checked={(editCourse?.instructorId || []).includes(
+                              instructor.instructorId
+                            )}
+                            onChange={(e) => {
                               const selected = editCourse?.instructorId || [];
                               if (e.target.checked) {
                                 setEditCourse({
                                   ...editCourse,
-                                  instructorId: [...selected, instructor.instructorId],
+                                  instructorId: [
+                                    ...selected,
+                                    instructor.instructorId,
+                                  ],
                                 });
                               } else {
                                 setEditCourse({
                                   ...editCourse,
-                                  instructorId: selected.filter((id: string) => id !== instructor.instructorId),
+                                  instructorId: selected.filter(
+                                    (id: string) =>
+                                      id !== instructor.instructorId
+                                  ),
                                 });
                               }
                             }}
@@ -373,8 +534,9 @@ export default function Home() {
                 <button
                   type="submit"
                   className="px-4 py-2 rounded bg-blue-600 text-white cursor-pointer"
+                  disabled={uploadingEditImage}
                 >
-                  Save
+                  {uploadingEditImage ? "Uploading Image..." : "Save"}
                 </button>
               </div>
             </form>
