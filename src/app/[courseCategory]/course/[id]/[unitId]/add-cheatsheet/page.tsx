@@ -23,6 +23,8 @@ const AddCheatsheetPage = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const pathname = usePathname();
 
+
+  const coursePath = pathname.split("/add-cheatsheet")[0].split("/").slice(0, 4).join("/");
   const route = pathname.split("/course/")[1].replace("/add-cheatsheet", "");
 
   const handleFileChange = (e: any) => {
@@ -106,7 +108,7 @@ const AddCheatsheetPage = () => {
             Authorization: `Bearer ${token}`,
           },
           redirect: "follow",
-          body: JSON.stringify({ url: fileURL, name }),
+          body: JSON.stringify({ url: fileURL, name: file.name }),
         }
       );
 
@@ -120,7 +122,7 @@ const AddCheatsheetPage = () => {
         setUploadProgress(0);
         // Redirect to the previous page
         alert("Cheatsheet Added Successfully!");
-        window.location.href = pathname.replace("/add-cheatsheet", "");
+        window.location.href = coursePath;
       } else {
         setMessage(data.message || "Error adding cheatsheet.");
         setSuccess(false);
@@ -143,28 +145,17 @@ const AddCheatsheetPage = () => {
         }}
       >
         <h1>Add Cheatsheet</h1>
-        <BackButton href={pathname.replace("/add-cheatsheet", "")} />
+        <BackButton href={coursePath} />
       </div>
       {message && (
         <div
-          className={`${styles["message"]} ${
-            success ? styles["success"] : styles["error"]
-          }`}
+          className={`${styles["message"]} ${success ? styles["success"] : styles["error"]
+            }`}
         >
           {message}
         </div>
       )}
       <form onSubmit={handleSubmit} className={styles["add-cheatsheet-form"]}>
-        <div className={styles["form-group"]}>
-          <label htmlFor="name">Cheatsheet Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
         <div className={styles["form-group"]}>
           <label htmlFor="file">Upload File (PDF or Image):</label>
           <input

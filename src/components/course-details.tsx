@@ -445,7 +445,7 @@ export default function CourseDetails(props: any) {
                         }
                         Promise.all([deleteObject(storageRef)]).then(() => {
                           fetch(
-                            `${BASE_URL}/admin/resource/${unit.cheatsheet[0].courseId}/${unit.cheatsheet[0].unitId}/iq/${unit.cheatsheet[0].cheatId}`,
+                            `${BASE_URL}/admin/resource/${unit.cheatsheet[0].courseId}/${unit.cheatsheet[0].unitId}/cheatsheet/${unit.cheatsheet[0].cheatId}`,
                             {
                               method: "DELETE",
                               redirect: "follow",

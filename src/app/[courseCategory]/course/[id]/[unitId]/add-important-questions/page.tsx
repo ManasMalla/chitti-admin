@@ -22,6 +22,7 @@ const AddIqPage = () => {
   const [success, setSuccess] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const pathname = usePathname();
+  const coursePath = pathname.split("/add-important-questions")[0].split("/").slice(0, 4).join("/");
   const route = pathname
     .split("/course/")[1]
     .replace("/add-important-questions", "");
@@ -127,10 +128,7 @@ const AddIqPage = () => {
         setFile(null);
         setUploadProgress(0);
         alert("Important Question Added Successfully!");
-        window.location.href = pathname.replace(
-          `${route.split("/")[1]}/add-important-questions`,
-          ""
-        );
+        window.location.href = coursePath;
       } else {
         setMessage(data.message || "Error adding important question.");
         setSuccess(false);
@@ -146,13 +144,12 @@ const AddIqPage = () => {
     <div className={styles["add-iq-container"]}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h1>Add Important Question</h1>
-        <BackButton href={pathname.replace("/add-important-questions", "")} />
+        <BackButton href={coursePath} />
       </div>
       {message && (
         <div
-          className={`${styles["message"]} ${
-            success ? styles["success"] : styles["error"]
-          }`}
+          className={`${styles["message"]} ${success ? styles["success"] : styles["error"]
+            }`}
         >
           {message}
         </div>
